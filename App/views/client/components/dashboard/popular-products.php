@@ -15,7 +15,7 @@
                         <div class="position-absolute top-0 start-0">
                            <span class="badge bg-danger">Giảm giá</span>
                         </div>
-                        <a href="#!"><img src="/api/placeholder/400/320" alt="Sản phẩm tạp hóa" class="mb-3 img-fluid" /></a>
+                        <a href="#!"><img src="https://www.claudeusercontent.com/api/placeholder/220/220" alt="Sản phẩm tạp hóa" class="mb-3 img-fluid" /></a>
 
                         <div class="card-product-action">
                            <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">

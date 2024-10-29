@@ -8,7 +8,7 @@ class OrderController  extends Controller {
 
    public function index() {
 
-      loadView('admin/manage-orders/index');
+      loadView('admin/manage-orders');
    }
 
 

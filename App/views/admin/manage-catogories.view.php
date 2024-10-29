@@ -5,16 +5,16 @@
 
 <body id="">
 
-   <?= loadPartial('nav-bar') ?>
+   <?= loadComponents('layout/nav-bar') ?>
    <div class="main-wrapper">
-      <?= loadPartial('nav-bar-vertical') ?>
+      <?= loadComponents('layout/nav-bar-vertical') ?>
       <!-- main wrapper -->
       <main class="main-content-wrapper">
 
          <div class="container">
             <!-- row -->
             <?php
-            loadPartial('header-manage');
+            loadComponents('ui/header-manage');
 
             // Định nghĩa các thông số cho header
             $title = 'Danh mục';
@@ -139,9 +139,7 @@
    </div>
 
 
-   <script src="/assets/libs/bootstrap/bootstrap.bundle.min.js"></script>
-   <script src="/assets/libs/simplebar/simplebar.min.js"></script>
-   <script src="/assets/js/theme.min.js"></script>
+   <?= loadPartial('script') ?>
 </body>
 
 </html>

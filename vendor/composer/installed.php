@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'mac/food_order',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => null,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '734c8c7099d872a98f247adf518ad1d2e1b9f741',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'mac/food_order' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => null,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '734c8c7099d872a98f247adf518ad1d2e1b9f741',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

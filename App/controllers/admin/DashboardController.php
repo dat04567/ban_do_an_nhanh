@@ -7,7 +7,7 @@ use App\Controllers\Controller;
 class DashboardController extends Controller {
 
    public function index() {
-      loadView('admin/dashboard/index');
+      loadView('admin/dashboard');
    }
 
    public function show() {

@@ -7,8 +7,7 @@ use App\Controllers\Controller;
 class StaffController  extends Controller {
 
    public function index() {
-
-      loadView('admin/staffs/index');
+      loadView('admin/manage-staffs');
    }
 
 

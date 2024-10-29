@@ -5,24 +5,24 @@
 
 <body id="">
 
-<?= loadPartial('nav-bar') ?>
+<?= loadComponents('layout/nav-bar') ?>
 <div class="main-wrapper">
-   <?= loadPartial('nav-bar-vertical') ?>
+   <?= loadComponents('layout/nav-bar-vertical') ?>
    <!-- main wrapper -->
    <main class="main-content-wrapper">
 
       <section class="container">
-         <?= loadComponents('banner', "dashboard") ?>
-         <?= loadComponents('statistic-card', "dashboard") ?>
+         <?= loadComponents('dashboard/banner' ) ?>
+         <?= loadComponents('dashboard/statistic-card' ) ?>
          <div class="row">
-            <?= loadComponents('revenue', "dashboard") ?>
-            <?= loadComponents('total-sales', "dashboard") ?>
+            <?= loadComponents('dashboard/revenue' ) ?>
+            <?= loadComponents('dashboard/total-sales' ) ?>
          </div>
 
          <!-- row -->
          <div class="row">
-            <?= loadComponents('sales-review', "dashboard") ?>
-            <?= loadComponents('notification', "dashboard") ?>
+            <?= loadComponents('dashboard/sales-review' ) ?>
+            <?= loadComponents('dashboard/notification' ) ?>
 
          </div>
          <!-- row -->
@@ -105,10 +105,9 @@
 </div>
 
 
-   <script src="/assets/libs/bootstrap/bootstrap.bundle.min.js"></script>
-   <script src="/assets/libs/simplebar/simplebar.min.js"></script>
+
+   <?= loadPartial('script') ?>
    <script src="/assets/libs/apexcharts/apexcharts.min.js"> </script>
-   <script src="/assets/js/theme.min.js"></script>
    <script src="/assets/js/chart.js"></script>
 
 </body>

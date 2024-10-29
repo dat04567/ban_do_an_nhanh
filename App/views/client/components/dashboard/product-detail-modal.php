@@ -1,35 +1,3 @@
-<?= loadPartial("head") ?>
-
-<!--  Header Start  -->
-<?= loadComponents('nav-bar', "dashboard", "client") ?>
-<?= loadComponents("shop-cart", "dashboard", "client") ?>
-<?= loadPartial('sign-up-modal') ?>
-<!--  Header End  -->
-
-
-
-
-<?= loadPartial("location-modal") ?>
-
-
-
-<script src="/assets/js/vendors/validation.js"></script>
-
-<main>
-   <?= loadComponents("banner", "dashboard", "client") ?>
-
-   <!-- Category Section Start-->
-   <?= loadComponents("featured-categories", "dashboard", "client") ?>
-   <!-- Category Section End-->
-  <?= loadComponents("promotional-banner", "dashboard", "client") ?>
-   <!-- Popular Products Start-->
-   <?= loadComponents("popular-products", "dashboard", "client") ?>
-   <!-- Popular Products End-->
-   <?= loadComponents("best-sells", "dashboard", "client") ?>
-   <?= loadComponents("feature-section", "dashboard", "client") ?>
-</main>
-
-<!-- Modal -->
 <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
    <div class="modal-dialog modal-xl modal-dialog-centered">
       <div class="modal-content">
@@ -178,32 +146,3 @@
       </div>
    </div>
 </div>
-
-
-<?= loadPartial('footer') ?>
-
-
-
-<!-- Jquery -->
-<script src="/assets/js/vendors/jquery.min.js"></script>
-
-<!-- Bootstrap JS -->
-<script src="/assets/libs/bootstrap/bootstrap.bundle.min.js"></script>
-<script src="/assets/libs/simplebar/simplebar.min.js"></script>
-<script src="/assets/js/theme.min.js"></script>
-<script src="/assets/js/chart.js"></script>
-
-
-
-<!-- Theme JS -->
-<script src="/assets/js/vendors/countdown.js"></script>
-<script src="/assets/libs/slick-carousel/slick.min.js"></script>
-<script src="/assets/js/vendors/slick-slider.js"></script>
-<script src="/assets/libs/tiny-slider/tiny-slider.js"></script>
-<script src="/assets/js/vendors/tns-slider.js"></script>
-<script src="/assets/js/vendors/zoom.js"></script>
-
-
-</body>
-
-</html>

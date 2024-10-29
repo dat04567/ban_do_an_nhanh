@@ -8,7 +8,7 @@ class HomeController  extends Controller {
 
    public function index() {
       
-      loadView('client/dashboard/index');
+      loadView('client/dashboard');
    }
 
    public function show() {

@@ -7,7 +7,7 @@ use App\Controllers\Controller;
 class CategoryController  extends Controller {
 
    public function index() {
-      loadView('admin/categories/index');
+      loadView('admin/manage-catogories');
    }
 
    public function show() {

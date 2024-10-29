@@ -5,27 +5,26 @@
 
 <body id="">
 
-   <?= loadPartial('nav-bar') ?>
+   <?= loadComponents('layout/nav-bar') ?>
    <div class="main-wrapper">
-      <?= loadPartial('nav-bar-vertical') ?>
+      <?= loadComponents('layout/nav-bar-vertical') ?>
       <!-- main wrapper -->
       <main class="main-content-wrapper">
 
          <div class="container">
             <!-- row -->
             <?php
-            loadPartial('header-manage');
+            loadComponents('ui/header-manage');
 
             // Định nghĩa các thông số cho header
-            $title = 'Nhân viên';
+            $title = 'Khách hàng';
             $breadcrumbs = [
-               ['label' => 'Dashboard', 'href' => '/admin'],
-               ['label' => 'Nhân viên', 'active' => true]
+               ['label' => 'Dashboard', 'href' => 'index.php'],
+               ['label' => 'Khách hàng', 'active' => true]
             ];
 
 
-            $actionButton = '<a href="add-product.php" class="btn btn-primary">Thêm Nhân Viên</a>';
-
+            $actionButton = '<a href="add-category.php" class="btn btn-primary">Thêm Khách Hàng</a>';
 
             // Render header
             renderPageHeader($title, $breadcrumbs, $actionButton);
@@ -55,11 +54,12 @@
                                           <label class="form-check-label" for="checkAll"></label>
                                        </div>
                                     </th>
-                                    <th>Tên Nhân Viên</th>
-                                    <th>Mức Lương</th>
-                                    <th>Số Điện Thoại</th>
-                                    <th>Địa Chỉ</th>
-                                    <th>Chức vụ</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Ngày mua</th>
+                                    <th>Số Điện thoại</th>
+                                    <th>Số tiền đã chi</th>
+
                                     <th></th>
                                  </tr>
                               </thead>
@@ -131,6 +131,7 @@
             </div>
          </div>
       </main>
+
       <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
          <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title" id="offcanvasRightLabel">Customer Details</h5>
@@ -369,9 +370,7 @@
    </div>
 
 
-   <script src="/assets/libs/bootstrap/bootstrap.bundle.min.js"></script>
-   <script src="/assets/libs/simplebar/simplebar.min.js"></script>
-   <script src="/assets/js/theme.min.js"></script>
+   <?= loadPartial('script') ?>
 </body>
 
 </html>

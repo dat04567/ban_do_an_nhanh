@@ -8,7 +8,7 @@ class FoodController  extends Controller {
 
    public function index() {
 
-      loadView('admin/manage-food/index');
+      loadView('admin/manage-foods');
    }
 
 

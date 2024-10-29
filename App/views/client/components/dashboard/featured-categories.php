@@ -8,10 +8,10 @@
       <div class="category-slider">
          <?php for ($i = 0; $i < 20; $i++): ?>
             <div class="item">
-               <a href="../pages/shop-grid.html" class="text-decoration-none text-inherit">
+               <a href="" class="text-decoration-none text-inherit">
                   <div class="card card-product mb-lg-4">
                      <div class="card-body text-center py-8">
-                        <img src="assets/images/category/category-dairy-bread-eggs.jpg" alt="Đồ ăn " class="mb-3 img-fluid" />
+                        <img src="https://www.claudeusercontent.com/api/placeholder/120/120" alt="Đồ ăn " class="mb-3 img-fluid" />
                         <div class="text-truncate">Sữa, Bánh mì & Trứng</div>
                      </div>
                   </div>

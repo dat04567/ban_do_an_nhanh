@@ -8,7 +8,7 @@ class InventoryController  extends Controller {
 
    public function index() {
 
-      loadView('admin/inventory/index');
+      loadView('admin/manage-inventory');
    }
 
 

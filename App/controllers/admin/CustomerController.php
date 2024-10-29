@@ -8,7 +8,7 @@ class CustomerController  extends Controller {
 
    public function index() {
 
-      loadView('admin/customters/index');
+      loadView('admin/manage-customters');
    }
 
 

@@ -41,9 +41,9 @@ function loadView($name, $data = [])
  * 
  */
 
-function loadComponents($name, $page, $users = "admin" , $data = [])
+function loadComponents($name, $users = "admin" , $data = [])
 {
-  $componentPath = basePath("App/views/{$users}/{$page}/components/{$name}.php");
+  $componentPath = basePath("App/views/{$users}/components/{$name}.php");
 
   if (file_exists($componentPath)) {
     extract($data);
