@@ -1,0 +1,19 @@
+{
+    "name": "mac/food_order",
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dat4567",
+            "email": "dathtcomputer@gmail.com"
+        }
+    ],
+    "require": {
+        "twbs/bootstrap": "4.6.2",
+        "twbs/bootstrap-icons": "^1.11"
+    }
+}
