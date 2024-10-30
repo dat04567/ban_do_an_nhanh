@@ -4,22 +4,6 @@
 
 ### Cài đặt Composer trên Windows và Mac
 
-#### Trên Windows
-
-1. Tải xuống trình cài đặt Composer từ [getcomposer.org](https://getcomposer.org/Composer-Setup.exe).
-2. Chạy tệp `Composer-Setup.exe` và làm theo hướng dẫn để hoàn tất cài đặt.
-
-#### Trên Mac
-
-1. Mở Terminal.
-2. Chạy lệnh sau để tải xuống và cài đặt Composer:
-
-   ```sh
-   php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-   php composer-setup.php
-   php -r "unlink('composer-setup.php');"
-   sudo mv composer.phar /usr/local/bin/composer
-   ```
 
 #### Cài đặt PHP trên Windows
 
@@ -34,8 +18,24 @@
    - Thêm đường dẫn đến thư mục PHP của bạn, ví dụ: `C:\php`.
 5. Mở Command Prompt và chạy lệnh `php -v` để kiểm tra cài đặt PHP.
 
+#### Cấu hình XAMPP để chạy dự án
+
+#### Cấu hình XAMPP để chạy dự án trên Windows
+
+1. Mở tệp cấu hình Apache của XAMPP. Tệp này thường nằm ở: `C:\xampp\apache\conf\httpd.conf`.
+2. Tìm dòng `DocumentRoot` và thay đổi nó thành đường dẫn đến thư mục dự án của bạn:
+
+   ```apache
+   DocumentRoot "C:/xampp/htdocs/food_order"
+   <Directory "C:/xampp/htdocs/food_order">
+   ```
+
+3. Lưu tệp cấu hình và khởi động lại Apache từ bảng điều khiển XAMPP.
+
+Bây giờ bạn đã sẵn sàng để chạy dự án của mình trên XAMPP.
 
 
+Bây giờ bạn đã sẵn sàng để chạy dự án của mình trên XAMPP.
 
 ### Cài đặt gói Composer
 
