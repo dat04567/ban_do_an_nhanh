@@ -12,8 +12,12 @@
                <div class="card card-product">
                   <div class="card-body">
                      <div class="text-center position-relative">
+                        
                         <div class="position-absolute top-0 start-0">
-                           <span class="badge bg-danger">Giảm giá</span>
+                           <!-- giảm giá bao nhiêu % 14  -->
+                           <!-- badge bg-success -->
+                           <!-- hot giảm giá -->
+                           <!-- <span class="badge bg-danger">Hot</span> -->
                         </div>
                         <a href="#!"><img src="https://www.claudeusercontent.com/api/placeholder/220/220" alt="Sản phẩm tạp hóa" class="mb-3 img-fluid" /></a>
 
@@ -42,7 +46,8 @@
                      <div class="d-flex justify-content-between align-items-center mt-3">
                         <div>
                            <span class="text-dark">18.000đ</span>
-                           <span class="text-decoration-line-through text-muted">24.000đ</span>
+                           <!-- giảm giá -->
+                           <!-- <span class="text-decoration-line-through text-muted">24.000đ</span> -->
                         </div>
                         <div>
                            <a href="#!" class="btn btn-primary btn-sm">

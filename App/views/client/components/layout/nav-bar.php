@@ -1,4 +1,6 @@
+<!-- máy tính  -->
 <div class="border-bottom">
+   <!-- language  -->
    <div class="bg-light py-1">
       <div class="container">
          <div class="row">
@@ -57,16 +59,17 @@
          </div>
       </div>
    </div>
+   <!--  -->
    <div class="py-5">
       <div class="container">
          <div class="row w-100 align-items-center gx-lg-2 gx-0">
             <div class="col-xxl-2 col-lg-3 col-md-6 col-5">
-               <a class="navbar-brand d-none d-lg-block" href="./index.html">
+               <a class="navbar-brand d-none d-lg-block" href="/">
                   <img src="/assets/images/food-icon.jpg" alt="FoodFashion" class="navbar-brand-logo" width="160" />
                </a>
                <div class="d-flex justify-content-between w-100 d-lg-none">
                   <a class="navbar-brand" href="./index.html">
-                     <img src="./assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template" />
+                     <img src="/assets/images/food-icon.jpg" alt="FoodFashion" width="160" />
                   </a>
                </div>
             </div>
@@ -121,12 +124,57 @@
                         </svg>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                            5
-                           <span class="visually-hidden">unread messages</span>
+
                         </span>
                      </a>
                   </div>
                   <div class="list-inline-item me-5">
-                     <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
+
+                     <!-- <a href="#" role="button" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg
+                           xmlns="http://www.w3.org/2000/svg"
+                           width="20"
+                           height="20"
+                           viewBox="0 0 24 24"
+                           fill="none"
+                           stroke="currentColor"
+                           stroke-width="2"
+                           stroke-linecap="round"
+                           stroke-linejoin="round"
+                           class="feather feather-user">
+                           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                           <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                     </a> -->
+
+                     <!-- <div class="dropdown-menu  p-0 " id="user-menu"> -->
+                     <!-- <div class="lh-1 px-5 py-4 border-bottom">
+                           <h5 class="mb-1 h6">Hồ Tấn Đạt admin </h5>
+                           <small> </small>
+                        </div> -->
+
+                     <!-- <ul class="list-unstyled px-2 py-2">
+                           <li>
+                              <a class="dropdown-item" href="#!">Đăng nhập</a>
+                           </li>
+                           <li>
+                              <a class="dropdown-item" href="#!">Đăng ký</a>
+                           </li>
+                           <li>
+                              <a class="dropdown-item" href="#!">Quên mật khẩu </a>
+                           </li>
+                           <li>
+                              <a class="dropdown-item" href="#!"> Tài khoản của tôi </a>
+                           </li>
+                           <li>
+                              <a class="dropdown-item" href="#!">Đơn mua</a>
+                           </li>
+                        </ul> -->
+                     <!-- <div class="border-top px-5 py-2">
+                           <a href="#">Log Out</a>
+                        </div> -->
+                     <!-- </div> -->
+                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            width="20"
@@ -142,9 +190,24 @@
                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                      </a>
+                     <ul class="dropdown-menu p-0 "  id="user-menu">
+                        <li><a class="dropdown-item" href="./pages/signin.html">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="./pages/signup.html">Đăng ký</a></li>
+                        <li><a class="dropdown-item" href="./pages/forgot-password.html">Quên mật khẩu</a></li>
+                        <!-- Tải khoản của tôi  -->
+                        <!-- <li><a class="dropdown-item" href="./pages/account-orders.html">Đơn hàng</a></li>
+                        <li><a class="dropdown-item" href="./pages/account-settings.html">Cài đặt</a></li>
+                        <li><a class="dropdown-item" href="./pages/account-address.html">Địa chỉ</a></li>
+                        <li><a class="dropdown-item" href="./pages/account-payment-method.html">Phương thức thanh toán</a></li>
+                        <li><a class="dropdown-item" href="./pages/account-notification.html">Thông báo</a></li> -->
+               
+                     </ul>
+
+
+
                   </div>
                   <div class="list-inline-item me-5 me-lg-0">
-                     <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
+                     <a class="text-muted position-relative" href="/cart">
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            width="20"
@@ -162,10 +225,10 @@
                         </svg>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
                            1
-                           <span class="visually-hidden">unread messages</span>
                         </span>
                      </a>
                   </div>
+
                   <div class="list-inline-item d-inline-block d-lg-none">
                      <!-- Button -->
                      <button
@@ -187,14 +250,18 @@
       </div>
    </div>
 
+   <!-- mobile -->
+
    <nav class="navbar navbar-expand-lg navbar-light navbar-default py-0 pb-lg-4" aria-label="Offcanvas navbar large">
       <div class="container">
          <div class="offcanvas offcanvas-start" tabindex="-1" id="navbar-default" aria-labelledby="navbar-defaultLabel">
+            <!-- mobile   -->
             <div class="offcanvas-header pb-1">
                <a href="./index.html"><img src="./assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template" /></a>
                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">
+               <!-- mobile -->
                <div class="d-block d-lg-none mb-4">
                   <form action="#">
                      <div class="input-group">
@@ -226,6 +293,7 @@
                      </button>
                   </div>
                </div>
+               <!-- mobile  -->
                <div class="d-block d-lg-none mb-4">
                   <a
                      class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
@@ -254,6 +322,7 @@
                      </span>
                      All Departments
                   </a>
+
                   <div class="collapse mt-2" id="collapseExample">
                      <div class="card card-body">
                         <ul class="mb-0 list-unstyled">
@@ -268,6 +337,7 @@
                      </div>
                   </div>
                </div>
+               <!-- window  -->
                <div class="dropdown me-3 d-none d-lg-block">
                   <button class="btn btn-primary px-6" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                      <span class="me-1">
@@ -365,10 +435,9 @@
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">Cửa hàng</a>
                         <ul class="dropdown-menu">
-                           <li><a class="dropdown-item" href="./pages/shop-grid.html">Cửa hàng - Lưới</a></li>
-                           <li><a class="dropdown-item" href="./pages/shop-list.html">Cửa hàng - Danh sách</a></li>
+                           <li><a class="dropdown-item" href="/shop">Cửa hàng - Lưới</a></li>
+                           <li><a class="dropdown-item" href="/shop-list">Cửa hàng - Danh sách</a></li>
                            <li><a class="dropdown-item" href="./pages/shop-wishlist.html">Danh sách yêu thích</a></li>
-                           <li><a class="dropdown-item" href="./pages/shop-cart.html">Giỏ hàng</a></li>
                         </ul>
                      </li>
 

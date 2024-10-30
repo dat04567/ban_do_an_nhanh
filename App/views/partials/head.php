@@ -19,6 +19,8 @@
   <link href="/assets/libs/simplebar/simplebar.min.css" rel="stylesheet" />
 
   <!--  Theme Css  -->
+
+  <link href="/assets/libs/nouislider/nouislider.min.css" rel="stylesheet" />  
   <link rel="stylesheet" href="/assets/css/theme.min.css" />
 
   <title>Hello</title>

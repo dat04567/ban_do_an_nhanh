@@ -39,7 +39,7 @@
 
                      <div class="d-flex justify-content-between align-items-center mt-3">
                         <div class="placeholder-glow">
-                           <span class="text-dark placeholder col-7"></span>
+                           <span class="text-dark ">300.000đ</span>
                            <span class="text-decoration-line-through text-muted">400.000đ</span>
                         </div>
                         <div>

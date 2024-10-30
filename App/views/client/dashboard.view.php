@@ -1,11 +1,14 @@
 <?= loadPartial("head") ?>
 
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+</head>
 <!--  Header Start  -->
+
   <!-- thanh danh  -->
 <?= loadComponents('layout/nav-bar',  "client") ?>
 
-<!-- giỏ hàng -->
-<?= loadComponents("modal/shop-cart",  "client") ?>
+
 <!-- đăng ký modal  -->
 <?= loadComponents('modal/sign-up-modal', 'client') ?>
 <!--  Header End  -->

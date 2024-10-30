@@ -4,11 +4,11 @@ namespace App\Controllers\client;
 
 use App\Controllers\Controller;
 
-class HomeController  extends Controller {
+class ShopController  extends Controller {
 
    public function index() {
       
-      loadView('client/dashboard');
+      loadView('client/shop');
    }
 
 

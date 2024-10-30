@@ -1,3 +1,35 @@
 .nav-link::before {
    content: none !important;
 }
+
+/* Mobile breakpoint */
+@media (max-width: 767px) {
+   #user-menu {
+      margin-top: 1rem !important;
+      transform: translate3d(-45px, 124px, 0px) !important;
+   }
+}
+
+/* Tablet breakpoint */
+@media (min-width: 768px) and (max-width: 1023px) {
+   #user-menu {
+      margin-top: 1rem !important;
+      transform: translate3d(600px, 125px , 0px) !important;
+   }
+}
+
+/* Laptop breakpoint */
+@media (min-width: 1024px) and (max-width: 1439px) {
+   #user-menu {
+      margin-top: 1rem !important;
+      transform: translate3d(0px, 111px, 0px) !important;
+   }
+}
+
+/* Desktop breakpoint */
+@media (min-width: 1440px) {
+   #user-menu {
+      margin-top: 1rem !important;
+      transform: translate3d(1408.5px, 111px, 0px) !important;
+   }
+}
