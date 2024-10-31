@@ -33,3 +33,9 @@
       transform: translate3d(1408.5px, 111px, 0px) !important;
    }
 }
+
+
+.slick-track
+{
+   height: 700px;
+}
