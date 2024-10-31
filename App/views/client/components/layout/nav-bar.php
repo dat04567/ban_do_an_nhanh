@@ -174,7 +174,9 @@
                            <a href="#">Log Out</a>
                         </div> -->
                      <!-- </div> -->
-                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                     <a class="nav-link dropdown-toggle  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class=""> Hồ Tấn Đạt </span>
+
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            width="20"
@@ -189,8 +191,9 @@
                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
+
                      </a>
-                     <ul class="dropdown-menu p-0 "  id="user-menu">
+                     <ul class="dropdown-menu p-0 " id="user-menu">
                         <li><a class="dropdown-item" href="./pages/signin.html">Đăng nhập</a></li>
                         <li><a class="dropdown-item" href="./pages/signup.html">Đăng ký</a></li>
                         <li><a class="dropdown-item" href="./pages/forgot-password.html">Quên mật khẩu</a></li>
@@ -200,14 +203,14 @@
                         <li><a class="dropdown-item" href="./pages/account-address.html">Địa chỉ</a></li>
                         <li><a class="dropdown-item" href="./pages/account-payment-method.html">Phương thức thanh toán</a></li>
                         <li><a class="dropdown-item" href="./pages/account-notification.html">Thông báo</a></li> -->
-               
+
                      </ul>
 
 
 
                   </div>
                   <div class="list-inline-item me-5 me-lg-0">
-                     <a class="text-muted position-relative" href="/cart">
+                     <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            width="20"

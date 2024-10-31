@@ -5,7 +5,7 @@
 </head>
 <!--  Header Start  -->
 
-  <!-- thanh danh  -->
+<!-- thanh danh  -->
 <?= loadComponents('layout/nav-bar',  "client") ?>
 
 
@@ -24,27 +24,27 @@
 <script src="/assets/js/vendors/validation.js"></script>
 
 <main>
-   <!-- Thành phần banner -->
-   <?= loadComponents("dashboard/banner","client") ?>
+  <!-- Thành phần banner -->
+  <?= loadComponents("dashboard/banner", "client") ?>
 
-   <!-- Thành phần danh mục nổi bật -->
-   <?= loadComponents("dashboard/featured-categories","client") ?>
-   <!-- quảng cáo -->
-  <?= loadComponents("dashboard/promotional-banner","client") ?>
-   <!-- sản phẩm nổi bật -->
-   <?= loadComponents("dashboard/popular-products","client") ?>
-   <!-- Sản phẩm best sell -->
-   <?= loadComponents("dashboard/best-sells","client") ?>
-   <?= loadComponents("dashboard/feature-section","client") ?>
+  <!-- Thành phần danh mục nổi bật -->
+  <?= loadComponents("dashboard/featured-categories", "client") ?>
+  <!-- quảng cáo -->
+  <?= loadComponents("dashboard/promotional-banner", "client") ?>
+  <!-- sản phẩm nổi bật -->
+  <?= loadComponents("dashboard/popular-products", "client") ?>
+  <!-- Sản phẩm best sell -->
+  <?= loadComponents("dashboard/best-sells", "client") ?>
+  <?= loadComponents("dashboard/feature-section", "client") ?>
 
 </main>
 
 
-<!-- -->
-<!-- mở chi tiết sản phẩm Modal -->
- <?= loadComponents("dashboard/product-detail-modal","client") ?>
- 
 
+
+<!-- Giỏ hàng -->
+
+<?= loadComponents('modal/shop-cart', 'client') ?>
 
 <?= loadComponents('layout/footer', 'client') ?>
 

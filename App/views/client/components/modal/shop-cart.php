@@ -1,7 +1,7 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
    <div class="offcanvas-header border-bottom">
       <div class="text-start">
-         <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Giỏ Hàng</h5>
+         <h5 id="offcanvasRightLabel" class="mb-0 fs-4">Xem nhanh giỏ hàng</h5>
          <small>Vị trí: 382480</small>
       </div>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
@@ -142,7 +142,7 @@
          <!-- btn -->
          <div class="d-flex justify-content-between mt-4">
             <a href="#!" class="btn btn-primary"  data-bs-dismiss="offcanvas" >Tiếp Tục Mua Sắm</a>
-            <a href="#!" class="btn btn-dark">Đi tới giỏ hàng</a>
+            <a href="#!" class="btn btn-dark">Xem giỏ hàng</a>
          </div>
       </div>
    </div>

@@ -14,7 +14,7 @@
 @media (min-width: 768px) and (max-width: 1023px) {
    #user-menu {
       margin-top: 1rem !important;
-      transform: translate3d(600px, 125px , 0px) !important;
+      transform: translate3d(600px, 125px, 0px) !important;
    }
 }
 

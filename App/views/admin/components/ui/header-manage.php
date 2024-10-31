@@ -1,6 +1,7 @@
 <?php
-function renderPageHeader($title, $breadcrumbs = [], $actionButton = null) {
-    ?>
+function renderPageHeader($title, $breadcrumbs = [], $actionButton = null)
+{
+?>
     <div class="row mb-8">
         <div class="col-md-12">
             <div class="d-md-flex justify-content-between align-items-center">
@@ -31,6 +32,6 @@ function renderPageHeader($title, $breadcrumbs = [], $actionButton = null) {
             </div>
         </div>
     </div>
-    <?php
+<?php
 }
 ?>
