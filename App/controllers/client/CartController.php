@@ -1,22 +1,25 @@
 <?php
 
-namespace App\Controllers\admin;
+namespace App\Controllers\client;
 
 use App\Controllers\Controller;
 use Framework\Response;
 
-class IngredientController  extends Controller {
+class CartController  extends Controller {
 
    public function index() {
+      
 
-      Response::view('admin/manage-ingredients');
+      Response::view('client/cart');
    }
 
 
-   public function showListFoods() {
-
+   public function checkout() {
+         
+      Response::view('client/checkout');
    }
 
+   
    public function show() {
       echo "Show Page";
    }

@@ -3,12 +3,14 @@
 namespace App\Controllers\client;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class HomeController  extends Controller {
 
    public function index() {
       
-      loadView('client/dashboard');
+
+      Response::view('client/dashboard');
    }
 
 

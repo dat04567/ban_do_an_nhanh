@@ -10,6 +10,7 @@ namespace Framework;
 use App\Controllers\ErrorController;
 
 
+
 class Router
 {
   protected array $routes = [];
@@ -45,6 +46,8 @@ class Router
     $controller = $arguments[1];
     $middleware = $arguments[2] ?? [];
 
+
+
     if (strpos($uri, '/') !== 0) {
       $uri = '/' . $uri;
     }
@@ -75,8 +78,18 @@ class Router
       http_response_code(400);
       return;
     }
+    if (empty($uri['path'])) {
+      ErrorController::notFound();
+
+      return;
+    }
 
     $path = $uri['path'];
+
+
+
+
+
 
     $query =  $uri['query'] ?? '';
     // Check for _method input
@@ -108,7 +121,7 @@ class Router
         $params = array_combine($paramNames, $matches);
       }
     }
-    
+
     if (!$route) {
       ErrorController::notFound();
       return;

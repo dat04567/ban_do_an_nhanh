@@ -142,7 +142,7 @@
          <!-- btn -->
          <div class="d-flex justify-content-between mt-4">
             <a href="#!" class="btn btn-primary"  data-bs-dismiss="offcanvas" >Tiếp Tục Mua Sắm</a>
-            <a href="#!" class="btn btn-dark">Xem giỏ hàng</a>
+            <a href="/cart" class="btn btn-dark">Xem giỏ hàng</a>
          </div>
       </div>
    </div>

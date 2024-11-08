@@ -3,12 +3,13 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class InventoryController  extends Controller {
 
    public function index() {
 
-      loadView('admin/manage-inventory');
+      Response::view('admin/manage-inventory');
    }
 
 

@@ -13,7 +13,7 @@ class ErrorController
   {
     http_response_code(404);
 
-    loadView('error', [
+    loadView('shared/error', [
       'status' => '404',
       'message' => $message
     ]);

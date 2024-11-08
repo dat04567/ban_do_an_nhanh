@@ -3,11 +3,13 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class DashboardController extends Controller {
 
    public function index() {
-      loadView('admin/dashboard');
+
+      Response::view('admin/dashboard');
    }
 
    public function show() {

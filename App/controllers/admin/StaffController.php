@@ -3,11 +3,13 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class StaffController  extends Controller {
 
    public function index() {
-      loadView('admin/manage-staffs');
+      
+      Response::view('admin/manage-staffs');
    }
 
 

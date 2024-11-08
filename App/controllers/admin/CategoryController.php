@@ -3,11 +3,12 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\Controller;
-
+use Framework\Response;
 class CategoryController  extends Controller {
 
    public function index() {
-      loadView('admin/manage-catogories');
+
+      Response::view('admin/manage-categories');
    }
 
    public function show() {

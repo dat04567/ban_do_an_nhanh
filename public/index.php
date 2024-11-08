@@ -11,7 +11,7 @@ $router = new Router();
 
 loadRoutes('home');
 loadRoutes('admin');
-// loadRoutes('user');
+loadRoutes('user');
 
 
 // Get current URI and HTTP method

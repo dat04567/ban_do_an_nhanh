@@ -3,12 +3,13 @@
 namespace App\Controllers\admin;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class OrderController  extends Controller {
 
    public function index() {
 
-      loadView('admin/manage-orders');
+     Response::view('admin/manage-orders');
    }
 
 

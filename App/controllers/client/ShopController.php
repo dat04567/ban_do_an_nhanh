@@ -3,12 +3,18 @@
 namespace App\Controllers\client;
 
 use App\Controllers\Controller;
+use Framework\Response;
 
 class ShopController  extends Controller {
 
    public function index() {
       
-      loadView('client/shop');
+      Response::view('client/shop');
+   }
+
+   public function checkout() {
+         
+      Response::view('client/checkout');
    }
 
 

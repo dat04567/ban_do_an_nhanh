@@ -1,22 +1,29 @@
 <?php
 
-namespace App\Controllers\admin;
+namespace App\Controllers\client;
 
 use App\Controllers\Controller;
 use Framework\Response;
 
-class IngredientController  extends Controller {
+class UserController  extends Controller {
 
    public function index() {
-
-      Response::view('admin/manage-ingredients');
+   
+    
    }
 
-
-   public function showListFoods() {
-
+   public function signUp() {
+      Response::view('shared/register');
    }
 
+   public function signIn() {
+      Response::view('shared/login');
+   }
+
+   public function forgotPassword() {
+      Response::view('shared/forgotpassword');
+   }
+   
    public function show() {
       echo "Show Page";
    }

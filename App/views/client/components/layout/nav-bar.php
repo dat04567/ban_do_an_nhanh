@@ -194,9 +194,9 @@
 
                      </a>
                      <ul class="dropdown-menu p-0 " id="user-menu">
-                        <li><a class="dropdown-item" href="./pages/signin.html">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="./pages/signup.html">Đăng ký</a></li>
-                        <li><a class="dropdown-item" href="./pages/forgot-password.html">Quên mật khẩu</a></li>
+                        <li><a class="dropdown-item" href="/sign-in">Đăng nhập</a></li>
+                        <li><a class="dropdown-item" href="/sign-up">Đăng ký</a></li>
+                        <li><a class="dropdown-item" href="/forgot-password">Quên mật khẩu</a></li>
                         <!-- Tải khoản của tôi  -->
                         <!-- <li><a class="dropdown-item" href="./pages/account-orders.html">Đơn hàng</a></li>
                         <li><a class="dropdown-item" href="./pages/account-settings.html">Cài đặt</a></li>
