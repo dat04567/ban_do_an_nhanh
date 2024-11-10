@@ -12,8 +12,7 @@ class StoreController  extends Controller {
 
       try {
          $stores = $this->db->select('SELECT * FROM CuaHang');
-   
-
+         
          Response::view('admin/manage-stores', ['stores' => $stores]);
       } catch (\Exception $e) {
          ErrorController::notFound();

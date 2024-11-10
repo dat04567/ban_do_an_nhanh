@@ -10,7 +10,12 @@ abstract class Controller
 
    public function __construct()
    {
-      $this->db = Database::getInstance();
+      try {
+         $this->db = Database::getInstance();
+      } catch (\Exception $e) {
+         inspectAndDie( $e->getMessage());
+      }
+   
    }
 
 

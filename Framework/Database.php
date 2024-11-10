@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+
 use PDO;
 use PDOException;
 use Exception;
@@ -86,6 +87,7 @@ class Database
          $dsn .= "dbname={$this->settings['db_name']};";
          $dsn .= "charset={$this->settings['charset']};";
          $dsn .= "port={$this->settings['port']}";
+      
 
          $this->conn = new PDO(
             $dsn,
@@ -93,9 +95,12 @@ class Database
             $this->settings['password'],
             $this->settings['options']
          );
+      
+       
+
       } catch (PDOException $e) {
        
-         throw new Exception("Connection failed: " . $e->getMessage(), $e->getCode());
+         throw new Exception("Connection failed: " . $e->getMessage());
       }
    }
 
