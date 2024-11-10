@@ -11,6 +11,10 @@ class CategoryController  extends Controller {
       Response::view('admin/manage-categories');
    }
 
+   public function showSubCategories() {
+      Response::view('admin/manage-sub-categories');
+   }
+
    public function show() {
       echo "Show Page";
    }

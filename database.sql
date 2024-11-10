@@ -9,32 +9,124 @@ CREATE TABLE CuaHang(
 	idCuaHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
 	storeName VARCHAR(100) NOT NULL,
 	email VARCHAR(100) NOT NULL,
+    isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL,
 	tongDoanhThu DECIMAL(20, 2) DEFAULT 0,
 	loiNhuan DECIMAL(20, 2) DEFAULT 0
 );
 
+INSERT INTO CuaHang (idCuaHang, storeName, email, isDeleted, deletedAt, tongDoanhThu, loiNhuan) 
+VALUES
+(UUID(), 'Gà Rán KFC Express', 'kfcexpress@example.com', false, NULL, 450000000.00, 135000000.00),
+(UUID(), 'Burger House', 'burgerhouse@example.com', false, NULL, 380000000.00, 114000000.00),
+(UUID(), 'Pizza Express 24h', 'pizza24h@example.com', false, NULL, 420000000.00, 126000000.00),
+(UUID(), 'Cơm Gà Taiwan', 'comgataiwan@example.com', false, NULL, 280000000.00, 84000000.00),
+(UUID(), 'Mì Cay Seoul', 'micayseoul@example.com', false, NULL, 350000000.00, 105000000.00),
+(UUID(), 'Sushi Express', 'sushiexpress@example.com', true, '2024-02-20 14:30:00', 180000000.00, 54000000.00),
+(UUID(), 'Bánh Mì Thịt Nướng 24/7', 'banhmi247@example.com', false, NULL, 220000000.00, 66000000.00),
+(UUID(), 'Hot Dog & Chips', 'hotdogchips@example.com', false, NULL, 195000000.00, 58500000.00),
+(UUID(), 'Cơm Văn Phòng Express', 'comvanphong@example.com', false, NULL, 320000000.00, 96000000.00),
+(UUID(), 'Đồ Ăn Đêm 247', 'doandem247@example.com', false, NULL, 280000000.00, 84000000.00);
 
-CREATE TABLE MonAn  (
-    idMonAn CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
-    tenMonAn VARCHAR(100),
-   	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+
+
+CREATE TABLE SanPham  (
+    idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    tenSanPham VARCHAR(100),
+   	createAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     price DECIMAL(10, 2) DEFAULT 0,
     pathImage VARCHAR(255),
+    isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL,
     status ENUM('Active', 'Deactive', 'Draf'),
     idCuaHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     FOREIGN KEY (idCuaHang) REFERENCES CuaHang(idCuaHang)
 );
 
+-- Mối quan hệ giữa sản phẩm và cửa hàng 
+CREATE TABLE KhoSanPham(
+	idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idCuaHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	soLuongTonKho INT,
+    PRIMARY KEY (idCuaHang, idSanPham),
+    FOREIGN KEY (idCuaHang) REFERENCES CuaHang(idCuaHang),
+	FOREIGN KEY (idSanPham) REFERENCES SanPham(idSanPham)
+);
+
+-- Danh mục
+
 CREATE TABLE DanhMuc(
 	idDanhMuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
-	name VARCHAR(50) NOT NULL,
-	idMonAn CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-	FOREIGN KEY (idMonAn) REFERENCES MonAn(idMonAn)
+	tenDanhMuc VARCHAR(50) NOT NULL,
+    isActive BOOLEAN DEFAULT true,
+    isDeleted BOOLEAN DEFAULT false,
+	idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	FOREIGN KEY (idSanPham) REFERENCES SanPham(idSanPham),
+	deletedAt TIMESTAMP NULL,
+	createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 
-INSERT INTO MonAn (tenMonAn, price, pathImage, status)
-VALUES ('Phở Bò', 50000.00, '/images/pho_bo.jpg', 'Active');
+CREATE TABLE DanhMucCon (
+    idDanhMucCon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()),
+    idDanhMuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    tenDanhMucCon VARCHAR(100) NOT NULL,
+    isActive BOOLEAN DEFAULT true,
+    isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (idDanhMucCon),
+    FOREIGN KEY (idDanhMuc) REFERENCES DanhMuc(idDanhMuc)
+);
+
+
+
+CREATE TABLE SanPhamDanhMuc(
+	idDanhMucCon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	PRIMARY KEY (idSanPham, idDanhMucCon),
+	FOREIGN KEY (idSanPham) REFERENCES SanPham(idSanPham),
+    FOREIGN KEY (idDanhMucCon) REFERENCES DanhMucCon(idDanhMucCon)
+);
+
+
+CREATE TABLE NguyenLieu(
+	idNguyenLieu CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    tenNguyenLieu VARCHAR(100) NOT NULL,
+    donVi VARCHAR(100) NOT NULL,
+    giaNguyenLieu DECIMAL(20, 2) 
+);
+
+
+
+-- Các thành phần để tạo ra một sản phẩm
+
+CREATE TABLE SanPhamNguyenLieu(
+	idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idNguyenLieu CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    soLuong INT,
+    PRIMARY KEY(idSanPham, idNguyenLieu),
+    FOREIGN KEY (idSanPham) REFERENCES SanPham(idSanPham),
+    FOREIGN KEY (idNguyenLieu) REFERENCES NguyenLieu(idNguyenLieu)
+);
+
+-- Kho lưu trữ nguyên liệu 1 cửa hàng có nhiều 
+CREATE TABLE KhoNguyenLieu(
+	idKho CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+	idNguyenLieu CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    soLuong INT DEFAULT 0,
+	idCuaHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    FOREIGN KEY (idCuaHang) REFERENCES CuaHang(idCuaHang),
+    FOREIGN KEY (idNguyenLieu) REFERENCES NguyenLieu(idNguyenLieu)
+)
+
+
+
+-- INSERT INTO MonAn (tenMonAn, price, pathImage, status)
+-- VALUES ('Phở Bò', 50000.00, '/images/pho_bo.jpg', 'Active');
 
 -- giỏ hàng và khách hàng
 
@@ -52,16 +144,35 @@ CREATE TABLE ChiTietGioHang (
    	FOREIGN KEY (idMonAn) REFERENCES MonAn(idMonAn)
 );
 
+--  người dùng
 
-CREATE TABLE KhachHang (
-    idKH CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
-    tenKH VARCHAR(100),
-    diaChi VARCHAR(255),
-    email VARCHAR(100),
-    password VARCHAR(100),
-   	idGioHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-   	FOREIGN KEY (idGioHang) REFERENCES GioHang(idGioHang)
+
+CREATE TABLE NguoiDung (
+    id CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    firstName VARCHAR(50) NOT NULL,
+    lastName VARCHAR(50) NOT NULL,
+	soDienThoai VARCHAR(15),  
+    diaChi VARCHAR(255),      
+    role ENUM('NhanVienKho', 'NhanVien', 'QuanLyCuaHang', 'QuanLyChuoiCuaHang', 'SuperAdmin', 'KhachHang' )  DEFAULT 'KhachHang' ,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+
+-- Bảng KhachHang kế thừa từ NguoiDung
+CREATE TABLE KhachHang (
+    idKH CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()),
+    idNguoiDung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idGioHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    PRIMARY KEY (idKH),
+	UNIQUE(idNguoiDung), 
+    FOREIGN KEY (idNguoiDung) REFERENCES NguoiDung(id),
+    FOREIGN KEY (idGioHang) REFERENCES GioHang(idGioHang)
+);
+
+
 
 -- thông tin về hoá đơn
 
@@ -93,7 +204,7 @@ CREATE TABLE PhuongThucThanhToan(
 	idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
  	tenPhuongThuc VARCHAR(100) NOT NULL,
  	idHoaDon  CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()),
-	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon), 
+	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
 );
 
 
@@ -102,10 +213,10 @@ CREATE TABLE ChiTietHoaDon(
 	soLuong INT DEFAULT 1,
 	giaBan DECIMAL(20, 2),
 	giaVon DECIMAL(20, 2),
-	idMonAn CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	idMonAn CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
 	idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
 	PRIMARY KEY (idMonAn, idHoaDon),
-	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon),
+	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon) ,
 	FOREIGN KEY (idMonAn) REFERENCES MonAn(idMonAn)
 );
 
@@ -121,18 +232,20 @@ CREATE TABLE HoaDonCuaHang (
 
 -- nhân viên và lịch làm việc 
 
-CREATE TABLE NhanVien(
-	idNhanVien CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
-	mucLuong DECIMAL(10, 2) NOT NULL,
-	tenNhanVien VARCHAR(255),
-    soDienThoai VARCHAR(15),
-    diaChi VARCHAR(255),
+
+-- Bảng NhanVien kế thừa từ NguoiDung
+CREATE TABLE NhanVien (
+    idNhanVien CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()),
+    idNguoiDung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    mucLuong DECIMAL(10, 2) NOT NULL,
     pathImage VARCHAR(255),
-    roles ENUM('NhanVienKho', 'NhanVien' , 'QuanLyCuaHang',  'QuanLyChuoiCuaHang', 'SuperAdmin'),
-    password VARCHAR(255),
     idCuaHang CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    PRIMARY KEY (idNhanVien),
+    UNIQUE(idNguoiDung),
+    FOREIGN KEY (idNguoiDung) REFERENCES NguoiDung(id),
     FOREIGN KEY (idCuaHang) REFERENCES CuaHang(idCuaHang)
 );
+
 
 
 CREATE TABLE CaLamViec(

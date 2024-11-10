@@ -27767,7 +27767,8 @@ input::-webkit-inner-spin-button,input::-webkit-outer-spin-button {
 
 .form-control.is-invalid+span .passwordToggler,.was-validated .form-control:invalid+span .passwordToggler {
    right: 37px!important;
-   top: 33%!important
+   top: 33%;
+    /* transform: translate(0, -170%); */
 }
 
 .form-control.is-valid+span .passwordToggler,.was-validated .form-control:valid+span .passwordToggler {
@@ -27888,6 +27889,18 @@ input::-webkit-inner-spin-button,input::-webkit-outer-spin-button {
    z-index: 1035
 }
 
+.ellipsis
+{
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+.store-id
+{
+   max-width: 100px;
+}
+
 .navbar-vertical-nav .navbar-vertical .navbar-vertical-content {
    height: calc(100vh - 5.3125rem)
 }
@@ -27917,7 +27930,7 @@ input::-webkit-inner-spin-button,input::-webkit-outer-spin-button {
    padding: 8px 12px 8px 16px;
    position: relative;
    text-align: left;
-   text-transform: capitalize;
+   /* text-transform: capitalize; */
    transition: .3s
 }
 

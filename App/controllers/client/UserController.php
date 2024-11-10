@@ -4,6 +4,9 @@ namespace App\Controllers\client;
 
 use App\Controllers\Controller;
 use Framework\Response;
+use App\Models\UserModel;
+use Framework\ValidationException;
+
 
 class UserController  extends Controller {
 
@@ -23,7 +26,8 @@ class UserController  extends Controller {
    public function forgotPassword() {
       Response::view('shared/forgotpassword');
    }
-   
+
+
    public function show() {
       echo "Show Page";
    }
@@ -33,13 +37,33 @@ class UserController  extends Controller {
       // echo "Show Page with ID: $id";
    }
 
-   public function create() {
-
-      echo "Create Page";
-   }
-
    public function store() {
-      echo "Store Page";
+      // $lastName = $_POST['lastName'];
+      // $firstName = $_POST['firstName'];
+      // $email = $_POST['email'];
+      // $password = $_POST['password'];
+
+      try {
+         $user = new UserModel($_POST);
+
+         if (!$user->validate())
+         {
+            throw new ValidationException($user->getErrors());
+         }
+
+         inspect($user->getAttributes());
+      
+         // $user->lastName = $lastName;
+         // $user->firstName = $firstName;
+         // $user->email = $email;
+         // $user->password = $password;
+         // $user->save();
+      } catch (ValidationException $e) {
+         // inspect($e->getErrors());
+         Response::view('shared/register', ['errors' => $e->getErrors()]);
+
+      }
+
    }
 
    public function edit() {

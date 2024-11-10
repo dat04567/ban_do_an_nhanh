@@ -243,26 +243,7 @@
                            </div>
                         </div>
                      </li>
-                     <li class="list-group-item px-4 py-3">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                           <div>Item Subtotal</div>
-                           <div class="fw-bold">$70.00</div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between">
-                           <div>
-                              Service Fee
-                              <i class="feather-icon icon-info text-muted" data-bs-toggle="tooltip" title="Default tooltip"></i>
-                           </div>
-                           <div class="fw-bold">$3.00</div>
-                        </div>
-                     </li>
-                     <!-- list group item -->
-                     <li class="list-group-item px-4 py-3">
-                        <div class="d-flex align-items-center justify-content-between fw-bold">
-                           <div>Subtotal</div>
-                           <div>$73.00</div>
-                        </div>
-                     </li>
+             
                   </ul>
                   <!-- btn -->
                   <div class="d-flex justify-content-between mt-4">

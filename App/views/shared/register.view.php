@@ -37,36 +37,69 @@
                      <p>Chào mừng đến với FoodFashion! Nhập email của bạn để bắt đầu.</p>
                   </div>
                   <!-- form -->
-                  <form class="needs-validation" novalidate>
+                  <form class="needs-validation" method="POST" action="/sign-up" novalidate>
                      <div class="row g-3">
                         <!-- col -->
                         <div class="col">
                            <!-- input -->
-                           <label for="formSignupfname" class="form-label visually-hidden">Tên</label>
-                           <input type="text" class="form-control" id="formSignupfname" placeholder="Tên" required />
-                           <div class="invalid-feedback">Vui lòng nhập tên.</div>
+
+                           <?php
+                           loadComponents('errors', 'shared');
+                           renderInputField(
+                              'lastName',          // Tên trường
+                              'Họ',                // Nhãn
+                              'text',              // Loại input
+                              $errors ?? [],             // Mảng lỗi
+                              $_POST['lastName'] ?? ''  // Giá trị nhập liệu
+                           );
+
+                           ?>
+
                         </div>
                         <div class="col">
                            <!-- input -->
-                           <label for="formSignuplname" class="form-label visually-hidden">Họ</label>
-                           <input type="text" class="form-control" id="formSignuplname" placeholder="Họ" required />
-                           <div class="invalid-feedback">Vui lòng nhập họ.</div>
+                           <?php
+                           renderInputField(
+                              'firstName',          // Tên trường
+                              'Tên',                // Nhãn
+                              'text',              // Loại input
+                              $errors ?? [],             // Mảng lỗi
+                              $_POST['firstName'] ?? ''  // Giá trị nhập liệu
+                           );
+                           ?>
                         </div>
                         <div class="col-12">
                            <!-- input -->
-                           <label for="formSignupEmail" class="form-label visually-hidden">Địa chỉ email</label>
-                           <input type="email" class="form-control" id="formSignupEmail" placeholder="Email" required />
-                           <div class="invalid-feedback">Vui lòng nhập email.</div>
+                           <?php
+                           renderInputField(
+                              'email',          // Tên trường
+                              'Email',                // Nhãn
+                              'email',              // Loại input
+                              $errors ?? [],             // Mảng lỗi
+                              $_POST['email'] ?? ''  // Giá trị nhập liệu
+                           );
+                           ?>
                         </div>
                         <div class="col-12">
                            <div class="password-field position-relative">
                               <label for="formSignupPassword" class="form-label visually-hidden">Mật khẩu</label>
-                              <div class="password-field position-relative">
-                                 <input type="password" class="form-control fakePassword" id="formSignupPassword" placeholder="*****" required />
-                                 <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                                 <div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
-                              </div>
+                              <input type="password" name="password" class="form-control fakePassword <?php echo (isset($errors['password'])) ?
+                                                                                                         'is-invalid' : '';
+                                                                                                      ?>  " id="formSignupPassword" placeholder="*****" value="<?php echo isset($_POST['password']) ? htmlspecialchars($_POST['password']) : ''; ?>" />
+                              <span><i class="bi bi-eye-slash passwordToggler"></i></span>
+
+                              <?php if (isset($errors['password'])): ?>
+                                 <div class="invalid-feedback">
+                                    <?php foreach ($errors['password'] as $error): ?>
+                                       <p style="margin : 0"><?php echo htmlspecialchars($error); ?></p>
+                                    <?php endforeach; ?>
+                                 </div>
+                              <?php endif; ?>
+
                            </div>
+                           <!-- input -->
+
+
                         </div>
                         <!-- btn -->
                         <div class="col-12 d-grid"><button type="submit" class="btn btn-primary">Đăng ký</button></div>
@@ -91,7 +124,9 @@
 
 
    <?= loadComponents('layout/footer', 'client') ?>
+
    <?= loadPartial('script') ?>
 
-   <script src="/assets/js/vendors/validation.js"></script>
+
+   <script src="/assets/js/vendors/password.js"></script>
 </body>

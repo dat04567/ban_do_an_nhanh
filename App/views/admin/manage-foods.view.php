@@ -17,12 +17,12 @@
             loadComponents('ui/header-manage');
 
             // Định nghĩa các thông số cho header
-            $title = "Món ăn";
+            $title = "Sản phẩm";
             $breadcrumbs = [
                ['label' => 'Dashboard', 'href' => 'index.php'],
-               ['label' => 'Món ăn', 'active' => true]
+               ['label' => 'Sản phẩm', 'active' => true]
             ];
-            $actionButton = '<a href="add-product.php" class="btn btn-primary">Thêm Món ăn</a>';
+            $actionButton = '<a href="add-product.php" class="btn btn-primary">Thêm sản phẩm</a>';
 
             // Render header
             renderPageHeader($title, $breadcrumbs, $actionButton);
@@ -67,11 +67,11 @@
                                        </div>
                                     </th>
                                     <th>Hình ảnh</th>
-                                    <th>Tên món ăn</th>
+                                    <th>Tên sản phẩm</th>
                                     <th>Loại</th>
                                     <th>Trạng thái</th>
                                     <th>Tiền</th>
-                                    <th>Tiền</th>
+                                    <th>Ngày tạo</th>
                                     <th></th>
                                  </tr>
                               </thead>

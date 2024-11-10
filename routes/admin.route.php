@@ -8,6 +8,8 @@ $router->get('/admin/staffs','StaffController@index');
 $router->get('/admin/orders','OrderController@index');
 $router->get('/admin/inventory','InventoryController@index');
 $router->get('/admin/ingredients','IngredientController@index');
+$router->get('/admin/sub-categories','CategoryController@showSubCategories');
+$router->get('/admin/stores','StoreController@index');
 
 
 

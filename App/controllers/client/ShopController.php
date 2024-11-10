@@ -12,10 +12,6 @@ class ShopController  extends Controller {
       Response::view('client/shop');
    }
 
-   public function checkout() {
-         
-      Response::view('client/checkout');
-   }
 
 
    

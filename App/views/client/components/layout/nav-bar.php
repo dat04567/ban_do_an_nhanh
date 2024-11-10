@@ -130,7 +130,7 @@
                   </div>
                   <div class="list-inline-item me-5">
 
-                     <!-- <a href="#" role="button" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
+                     <a href="#" role="button" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg
                            xmlns="http://www.w3.org/2000/svg"
                            width="20"
@@ -145,66 +145,41 @@
                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                            <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                     </a> -->
+                        <!-- <img src="../assets/images/avatar/avatar-1.jpg" alt="" class="avatar avatar-md rounded-circle" /> -->
+                     </a>
 
-                     <!-- <div class="dropdown-menu  p-0 " id="user-menu"> -->
-                     <!-- <div class="lh-1 px-5 py-4 border-bottom">
-                           <h5 class="mb-1 h6">Hồ Tấn Đạt admin </h5>
-                           <small> </small>
+                     <div class="dropdown-menu  p-0 " id="user-menu">
+                        <!-- <div class="lh-1 px-5 py-4 border-bottom">
+                           <h5 class="mb-1 h6">Hồ Tấn Đạt </h5>
+                           <small> dathtcomputer@gmail.com </small>
                         </div> -->
 
-                     <!-- <ul class="list-unstyled px-2 py-2">
+                        <ul class="list-unstyled px-2 mb-0">
                            <li>
-                              <a class="dropdown-item" href="#!">Đăng nhập</a>
+                              <a class="dropdown-item" href="/sign-in">Đăng nhập</a>
                            </li>
                            <li>
-                              <a class="dropdown-item" href="#!">Đăng ký</a>
+                              <a class="dropdown-item" href="/sign-up">Đăng ký</a>
                            </li>
                            <li>
                               <a class="dropdown-item" href="#!">Quên mật khẩu </a>
                            </li>
-                           <li>
-                              <a class="dropdown-item" href="#!"> Tài khoản của tôi </a>
+                           <!-- <li>
+                              <a class="dropdown-item" href="#!"> Cài đặt </a>
                            </li>
                            <li>
                               <a class="dropdown-item" href="#!">Đơn mua</a>
                            </li>
-                        </ul> -->
-                     <!-- <div class="border-top px-5 py-2">
-                           <a href="#">Log Out</a>
+
+                           <li>
+                              <a class="dropdown-item" href="#!">Địa chỉ</a>
+                           </li> -->
+
+                        </ul>
+                        <!-- <div class="border-top px-5 py-2">
+                           <a href="#">Đăng xuất</a>
                         </div> -->
-                     <!-- </div> -->
-                     <a class="nav-link dropdown-toggle  " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class=""> Hồ Tấn Đạt </span>
-
-                        <svg
-                           xmlns="http://www.w3.org/2000/svg"
-                           width="20"
-                           height="20"
-                           viewBox="0 0 24 24"
-                           fill="none"
-                           stroke="currentColor"
-                           stroke-width="2"
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           class="feather feather-user">
-                           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                           <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-
-                     </a>
-                     <ul class="dropdown-menu p-0 " id="user-menu">
-                        <li><a class="dropdown-item" href="/sign-in">Đăng nhập</a></li>
-                        <li><a class="dropdown-item" href="/sign-up">Đăng ký</a></li>
-                        <li><a class="dropdown-item" href="/forgot-password">Quên mật khẩu</a></li>
-                        <!-- Tải khoản của tôi  -->
-                        <!-- <li><a class="dropdown-item" href="./pages/account-orders.html">Đơn hàng</a></li>
-                        <li><a class="dropdown-item" href="./pages/account-settings.html">Cài đặt</a></li>
-                        <li><a class="dropdown-item" href="./pages/account-address.html">Địa chỉ</a></li>
-                        <li><a class="dropdown-item" href="./pages/account-payment-method.html">Phương thức thanh toán</a></li>
-                        <li><a class="dropdown-item" href="./pages/account-notification.html">Thông báo</a></li> -->
-
-                     </ul>
+                     </div>
 
 
 
@@ -331,11 +306,9 @@
                         <ul class="mb-0 list-unstyled">
                            <li><a class="dropdown-item" href="./pages/shop-grid.html">Sữa, Bánh mì & Trứng</a></li>
                            <li><a class="dropdown-item" href="./pages/shop-grid.html">Đồ ăn vặt & Snack</a></li>
-                           <li><a class="dropdown-item" href="./pages/shop-grid.html">Rau củ quả</a></li>
                            <li><a class="dropdown-item" href="./pages/shop-grid.html">Nước giải khát & Nước ép</a></li>
                            <li><a class="dropdown-item" href="./pages/shop-grid.html">Đồ ăn sáng & Thức ăn nhanh</a></li>
                            <li><a class="dropdown-item" href="./pages/shop-grid.html">Bánh ngọt & Bánh quy</a></li>
-                           <li><a class="dropdown-item" href="./pages/shop-grid.html">Gà, Thịt & Cá</a></li>
                         </ul>
                      </div>
                   </div>
@@ -366,11 +339,9 @@
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                      <li><a class="dropdown-item" href="./pages/shop-grid.html">Sữa, Bánh mì & Trứng</a></li>
                      <li><a class="dropdown-item" href="./pages/shop-grid.html">Đồ ăn vặt & Snack</a></li>
-                     <li><a class="dropdown-item" href="./pages/shop-grid.html">Rau củ quả</a></li>
                      <li><a class="dropdown-item" href="./pages/shop-grid.html">Nước giải khát & Nước ép</a></li>
                      <li><a class="dropdown-item" href="./pages/shop-grid.html">Đồ ăn sáng & Thức ăn nhanh</a></li>
                      <li><a class="dropdown-item" href="./pages/shop-grid.html">Bánh ngọt & Bánh quy</a></li>
-                     <li><a class="dropdown-item" href="./pages/shop-grid.html">Gà, Thịt & Cá</a></li>
                   </ul>
                </div>
                <div>

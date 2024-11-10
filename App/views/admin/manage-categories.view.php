@@ -113,7 +113,44 @@
                                        </div>
                                     </td>
                                  </tr>
-                          
+                                 <tr>
+                                    <td>
+                                       <div class="form-check ms-4">
+                                          <input class="form-check-input" type="checkbox" value="" id="subcategoryOne" />
+                                          <label class="form-check-label" for="subcategoryOne"></label>
+                                       </div>
+                                    </td>
+                                    <td>
+                                       <a href="#!"><img src="../assets/images/icons/chips.svg" alt="" class="icon-shape icon-sm" /></a>
+                                    </td>
+                                    <td><a href="#" class="text-reset ms-4">Chips</a></td>
+                                    <td>5</td>
+                                    <td>
+                                       <span class="badge bg-light-primary text-dark-primary">Published</span>
+                                    </td>
+                                    <td>
+                                       <div class="dropdown">
+                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                             <i class="feather-icon icon-more-vertical fs-5"></i>
+                                          </a>
+                                          <ul class="dropdown-menu">
+                                             <li>
+                                                <a class="dropdown-item" href="#">
+                                                   <i class="bi bi-trash me-3"></i>
+                                                   Delete
+                                                </a>
+                                             </li>
+                                             <li>
+                                                <a class="dropdown-item" href="#">
+                                                   <i class="bi bi-pencil-square me-3"></i>
+                                                   Edit
+                                                </a>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </td>
+                                 </tr>
+
                               </tbody>
                            </table>
                         </div>

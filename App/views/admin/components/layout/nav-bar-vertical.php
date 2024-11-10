@@ -15,7 +15,7 @@ function checkIsShow($paths, $currentPath)
 }
 
 
-function renderNavItem($href, $iconClass, $text, $currentPath, $isDisabled = null )
+function renderNavItem($href, $iconClass, $text, $currentPath, $isDisabled = null)
 {
    $activeClass = ($currentPath == $href) ? 'active' : '';
 
@@ -62,14 +62,15 @@ function renderNavItem($href, $iconClass, $text, $currentPath, $isDisabled = nul
                <a class="nav-link collapsed " href="#" data-bs-toggle="collapse" data-bs-target="#navProducts" aria-expanded="false" aria-controls="navProducts">
                   <div class="d-flex align-items-center">
                      <span class="nav-link-icon"><i class="bi bi-cart"></i></span>
-                     <span class="nav-link-text">Quản lý món ăn</span>
+                     <span class="nav-link-text">Quản lý sản phẩm</span>
                   </div>
                </a>
 
                <div id="navProducts" class="collapse <?= checkIsShow(['/admin/foods', '/admin/categories'], $currentPath) ?> " data-bs-parent="#sideNavbar">
                   <ul class="nav flex-column ">
-                     <?= renderNavItem('/admin/foods', 'bi bi-list', 'Danh sách món ăn', $currentPath); ?>
-                     <?= renderNavItem('/admin/categories', 'bi bi-tags', 'Danh mục món ăn', $currentPath); ?>
+                     <?= renderNavItem('/admin/foods', 'bi bi-list', 'Danh sách sản phẩm', $currentPath); ?>
+                     <?= renderNavItem('/admin/categories', 'bi bi-tags', 'Danh mục', $currentPath); ?>
+                     <?= renderNavItem('/admin/sub-categories', 'bi bi-tags', 'Danh mục con ', $currentPath); ?>
                   </ul>
                </div>
             </li>
@@ -139,7 +140,7 @@ function renderNavItem($href, $iconClass, $text, $currentPath, $isDisabled = nul
                </a>
                <div id="navStores" class="collapse" data-bs-parent="#sideNavbar">
                   <ul class="nav flex-column">
-                     <?= renderNavItem('/stores', 'bi bi-shop', 'Cửa hàng', $currentPath); ?>
+                     <?= renderNavItem('/admin/stores', 'bi bi-shop', 'Cửa hàng', $currentPath); ?>
                      <?= renderNavItem('/schedules', 'bi bi-calendar', 'Lịch làm việc', $currentPath); ?>
                   </ul>
                </div>
@@ -203,7 +204,7 @@ function renderNavItem($href, $iconClass, $text, $currentPath, $isDisabled = nul
                <div id="mobileNavOrders" class="collapse <?= checkIsShow(["/admin/orders", "/admin/reviews"], $currentPath) ?> " data-bs-parent="#mobileSideNavbar">
                   <ul class="nav flex-column">
                      <?= renderNavItem('/admin/orders', 'bi bi-list', 'Danh sách đơn hàng', $currentPath); ?>
-                     
+
                      <?= renderNavItem('/reviews', 'bi bi-star', 'Đánh giá đơn hàng', $currentPath, 'disabled'); ?>
                   </ul>
                </div>

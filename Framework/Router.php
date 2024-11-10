@@ -14,6 +14,40 @@ use App\Controllers\ErrorController;
 class Router
 {
   protected array $routes = [];
+  protected array $dynamicRoutes = [];
+
+
+  private function sanitizeUri($uri)
+  {
+    // Remove multiple forward slashes
+    $uri = preg_replace('#/+#', '/', $uri);
+
+    // Remove trailing slash
+    $uri = rtrim($uri, '/');
+
+    // Remove any .. or unsafe characters
+    $uri = str_replace(['..', './'], '', $uri);
+
+    // Ensure leading slash
+    if (strpos($uri, '/') !== 0) {
+      $uri = '/' . $uri;
+    }
+
+    return $uri;
+  }
+
+  /**
+   * Convert URI to regex pattern
+   *
+   * @param string $uri
+   * @return string
+   */
+  private function convertUriToPattern($uri)
+  {
+    // Convert {parameter} to named capture group (?P<parameter>[^/]+)
+    return preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $uri);
+  }
+
 
   /**
    * Add a new route
@@ -23,19 +57,47 @@ class Router
    * @param string $action
    * @param array $middleware
    * 
+   * 
    * @return void
    */
+
   public function registerRoute($method, $uri, $action, $middleware = [])
   {
+    // Sanitize URI
+    $uri = $this->sanitizeUri($uri);
+
+    $routeKey = strtoupper($method) . ' ' . $uri;
+
     list($controller, $controllerMethod) = explode('@', $action);
 
-    $this->routes[] = [
+    $this->routes[$routeKey] = [
       'method' => $method,
       'uri' => $uri,
       'controller' => $controller,
       'controllerMethod' => $controllerMethod,
-      'middleware' => $middleware
+      'middleware' => $middleware,
+      'pattern' => $this->convertUriToPattern($uri)
     ];
+  }
+
+  /**
+   * Extract parameters from URI based on pattern
+   *
+   * @param string $pattern
+   * @param string $uri
+   * @return array|null
+   */
+  private function extractParameters($pattern, $uri)
+  {
+    $pattern = '#^' . $pattern . '$#';
+    if (preg_match($pattern, $uri, $matches)) {
+      // Remove numeric keys
+      return array_filter($matches, function ($key) {
+        return !is_numeric(value: $key);
+      }, ARRAY_FILTER_USE_KEY);
+      
+    }
+    return null;
   }
 
 
@@ -47,10 +109,8 @@ class Router
     $middleware = $arguments[2] ?? [];
 
 
+    $uri = $this->sanitizeUri($uri);
 
-    if (strpos($uri, '/') !== 0) {
-      $uri = '/' . $uri;
-    }
 
     if (in_array(strtolower($method), $httpMethods)) {
 
@@ -59,6 +119,8 @@ class Router
       throw new \BadMethodCallException("Method $method does not exist");
     }
   }
+
+
 
 
   /**
@@ -73,81 +135,59 @@ class Router
   public function route()
   {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
-    $uri = parse_url($_SERVER['REQUEST_URI']);
-    if ($uri === false) {
-      http_response_code(400);
-      return;
-    }
-    if (empty($uri['path'])) {
-      ErrorController::notFound();
+    $path = $this->sanitizeUri(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-      return;
-    }
-
-    $path = $uri['path'];
+    // Tạo khóa route sử dụng phương thức và URI
+    $routeKey = $requestMethod . ' ' . $path;
 
 
 
+    // Tìm route phù hợp
+    if (isset($this->routes[$routeKey])) {
+      $route = $this->routes[$routeKey];
+      $parameters = [];
+    } else {
+
+      $route = null;
+      $parameters = [];
 
 
 
-    $query =  $uri['query'] ?? '';
-    // Check for _method input
-    if ($requestMethod === 'POST' && isset($_POST['_method'])) {
-      // Override the request method with the value of _method
-      $requestMethod = strtoupper($_POST['_method']);
-    }
+      foreach ($this->routes as $registeredRoute) {
+        if ($registeredRoute['method'] !== $requestMethod) {
+          continue;
+        }
 
-    $queryParams = [];
-    if ($query) {
-      parse_str($query, $queryParams);
-    }
+        $params = $this->extractParameters($registeredRoute['pattern'], $path);
+      
+        if ($params !== null) {
+          $route = $registeredRoute;
+          $parameters = $params;
+          break;
+        }
+      }
 
-    $route = null;
-    $params = [];
 
 
-    foreach ($this->routes as $r) {
-
-      // Thay thế các tham số đường dẫn bằng biểu thức chính quy
-      $routePattern = preg_replace('/:[^\/]+/', '([^/]+)', $r['uri']);
-      // Thêm dấu gạch chéo vào đầu mẫu đường dẫn
-      $routePattern = '/^' . str_replace('/', '\/', $routePattern) . '$/';
-      if (preg_match($routePattern, $path, $matches)) {
-        array_shift($matches); // Remove the full match
-        $route = $r;
-        preg_match_all('/:([^\/]+)/', $r['uri'], $paramNames);
-        $paramNames = $paramNames[1];
-        $params = array_combine($paramNames, $matches);
+      // Xử lý lỗi 404 Not Found
+      if (!$route) {
+        ErrorController::notFound();
+        return;
       }
     }
 
-    if (!$route) {
-      ErrorController::notFound();
-      return;
-    }
-
-    // Check path admin or client
+    // Xác định namespace của controller dựa trên đường dẫn
     if (strpos($path, '/admin') === 0) {
-      $controller = 'App\\controllers\\admin\\' . $route['controller'];
-
-      // Instatiate the controller and call the method
-      $controllerInstance = new $controller();
+      $controllerClass = 'App\\Controllers\\admin\\' . $route['controller'];
     } else {
-      $controller = 'App\\Controllers\\client\\' . $route['controller'];
-
-      // Instatiate the controller and call the method
-      $controllerInstance = new $controller();
+      $controllerClass = 'App\\Controllers\\client\\' . $route['controller'];
     }
 
+    // Khởi tạo controller và gọi phương thức
+    $controllerInstance = new $controllerClass();
     $controllerMethod = $route['controllerMethod'];
 
-
-    $request = [
-      'params' => $params,
-      'query' => $queryParams
-    ];
-
-    $controllerInstance->$controllerMethod($request);
+    // Gọi phương thức của controller
+    $controllerInstance->$controllerMethod($parameters);
   }
 }

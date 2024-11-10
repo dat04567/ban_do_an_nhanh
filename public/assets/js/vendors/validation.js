@@ -5,8 +5,9 @@
       e.addEventListener(
          'submit',
          (a) => {
-            e.checkValidity() || (a.preventDefault(), a.stopPropagation()),
-               e.classList.add('was-validated');
+            // a.preventDefault(), a.stopPropagation();
+            // e.checkValidity() || (a.preventDefault(), a.stopPropagation()),
+            //    e.classList.add('was-validated');
          },
          !1
       );

@@ -24,3 +24,20 @@ class PasswordToggler {
 }
 
 const passwordToggler = new PasswordToggler('fakePassword', 'passwordToggler');
+
+const parent = document.querySelectorAll('.password-field .invalid-feedback p');
+const child = document.querySelector('.passwordToggler');
+
+function adjustPosition() {
+   const length = parent.length;
+   if (length == 2) {
+      child.style.top = `25%`;
+   } else if (length == 3) {
+      child.style.top = `21%`;
+   }
+
+   // child.style.top = `33`;
+}
+
+window.addEventListener('load', adjustPosition);
+window.addEventListener('resize', adjustPosition);
