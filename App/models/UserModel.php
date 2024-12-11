@@ -3,7 +3,8 @@
 
 namespace App\Models;
 
-
+use Framework\Database;
+#[\AllowDynamicProperties]
 class UserModel extends BaseModel
 {
    protected $id;
@@ -42,6 +43,11 @@ class UserModel extends BaseModel
       ]
    ];
 
+   public function __construct(array $attributes = [])
+   {
+      parent::__construct($attributes);
+   }
+
    // Custom validation rules
    protected function validatePasswordComplexity($attribute, $value): bool
    {
@@ -51,31 +57,71 @@ class UserModel extends BaseModel
 
    protected function validateUnique($attribute, $value): bool
    {
-      // Example: Check if email is unique
-      // global $db; // Assume we have a database connection
-      // $sql = "SELECT COUNT(*) as count FROM users WHERE email = ? AND id != ?";
-      // $result = $db->query($sql, [$value, $this->id ?? 0]);
-      return true;
+      $stmt = Database::getInstance()->query('SELECT COUNT(*) FROM NguoiDung WHERE email = ?', [
+         $value
+      ]);
+      return $stmt->fetchColumn()  == 0;
    }
+
+   private function generateUUID()
+   {
+      return sprintf(
+         '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+         mt_rand(0, 0xffff),
+         mt_rand(0, 0xffff),
+         mt_rand(0, 0xffff),
+         mt_rand(0, 0x0fff) | 0x4000,
+         mt_rand(0, 0x3fff) | 0x8000,
+         mt_rand(0, 0xffff),
+         mt_rand(0, 0xffff),
+         mt_rand(0, 0xffff)
+      );
+   }
+
+
+   public function save()
+   {
+      // Hash the password before saving
+      $hashedPassword = password_hash($this->password, PASSWORD_BCRYPT);
+      $this->id = $this->generateUUID();
+      // Example: Save user to database
+      Database::getInstance()->insert('NguoiDung', [
+         'id' => $this->id,
+         'lastName' => $this->lastName,
+         'firstName' => $this->firstName,
+         'email' => $this->email,
+         'password' => $hashedPassword
+      ]);
+
+      // add khach hang
+
+      Database::getInstance()->insert('KhachHang', [
+         'idNguoiDung' => $this->id
+      ]);
+
+      
+      
+   }
+
 
    // Custom error messages
    protected function getErrorMessages(): array
    {
       return [
-          'lastName.required' => 'Họ là bắt buộc',
-          'lastName.min' => 'Họ phải có ít nhất %d ký tự',
-          'lastName.max' => 'Họ không được vượt quá %d ký tự',
-          'lastName.regex' => 'Họ chỉ có thể chứa chữ cái và khoảng trắng',
-          'firstName.required' => 'Tên là bắt buộc',
-          'firstName.min' => 'Tên phải có ít nhất %d ký tự',
-          'firstName.max' => 'Tên không được vượt quá %d ký tự',
-          'firstName.regex' => 'Tên chỉ có thể chứa chữ cái và khoảng trắng',
-          'email.required' => 'Email là bắt buộc',
-          'email.email' => 'Vui lòng nhập địa chỉ email hợp lệ',
-          'email.unique' => 'Email này đã được đăng ký',
-          'password.required' => 'Mật khẩu là bắt buộc',
-          'password.min' => 'Mật khẩu phải có ít nhất %d ký tự',
-          'password.passwordComplexity' => 'Mật khẩu phải chứa chữ hoa, chữ thường và số'
+         'lastName.required' => 'Họ là bắt buộc',
+         'lastName.min' => 'Họ phải có ít nhất %d ký tự',
+         'lastName.max' => 'Họ không được vượt quá %d ký tự',
+         'lastName.regex' => 'Họ chỉ có thể chứa chữ cái và khoảng trắng',
+         'firstName.required' => 'Tên là bắt buộc',
+         'firstName.min' => 'Tên phải có ít nhất %d ký tự',
+         'firstName.max' => 'Tên không được vượt quá %d ký tự',
+         'firstName.regex' => 'Tên chỉ có thể chứa chữ cái và khoảng trắng',
+         'email.required' => 'Email là bắt buộc',
+         'email.email' => 'Vui lòng nhập địa chỉ email hợp lệ',
+         'email.unique' => 'Email này đã được đăng ký',
+         'password.required' => 'Mật khẩu là bắt buộc',
+         'password.min' => 'Mật khẩu phải có ít nhất %d ký tự',
+         'password.passwordComplexity' => 'Mật khẩu phải chứa chữ hoa, chữ thường và số'
       ];
    }
 
@@ -121,15 +167,13 @@ class UserModel extends BaseModel
    public function getLastName()
    {
       return $this->lastName;
-   }  
+   }
 
    public function setLastName($lastName)
    {
       $this->lastName = $lastName;
       $this->attributes['lastName'] = $lastName;
    }
-
-
 
 
 

@@ -6,18 +6,22 @@
          </div>
       </div>
       <div class="category-slider">
-         <?php for ($i = 0; $i < 20; $i++): ?>
-            <div class="item">
-               <a href="" class="text-decoration-none text-inherit">
-                  <div class="card card-product mb-lg-4">
-                     <div class="card-body text-center py-8">
-                        <img src="https://www.claudeusercontent.com/api/placeholder/120/120" alt="Đồ ăn " class="mb-3 img-fluid" />
-                        <div class="text-truncate">Sữa, Bánh mì & Trứng</div>
+
+      <?php if ( isset($categories) ): ?>
+
+            <?php foreach ($categories as $category): ?>
+               <div class="item">
+                  <a href="#" class="text-decoration-none text-inherit">
+                     <div class="card card-product mb-lg-4">
+                        <div class="card-body text-center py-8">
+                           <img src="<?= $category['hinhAnh'] ?>" alt="Đồ ăn " class="mb-3 img-fluid" width="120" />
+                           <div class="text-truncate"><?= $category['tenDanhMuc'] ?></div>
+                        </div>
                      </div>
-                  </div>
-               </a>
-            </div>
-         <?php endfor; ?>
+                  </a>
+               </div>
+            <?php endforeach; ?>
+      <?php endif; ?>
 
 
       </div>

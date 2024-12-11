@@ -2,6 +2,10 @@
 
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Toastr -->
+<link rel="stylesheet" href="/assets/libs/toastr/toastr.min.css" />
+
+
 </head>
 <!--  Header Start  -->
 
@@ -14,27 +18,32 @@
 <!--  Header End  -->
 
 
-
+<!-- load  modal alert  -->
+<?= loadPartial('modal-alert') ?>
 
 <!-- modal địa chỉ giao hàng -->
 <?= loadComponents("modal/location-modal", 'client') ?>
 
 
 
-<script src="/assets/js/vendors/validation.js"></script>
-
 <main>
+
   <!-- Thành phần banner -->
   <?= loadComponents("dashboard/banner", "client") ?>
 
   <!-- Thành phần danh mục nổi bật -->
-  <?= loadComponents("dashboard/featured-categories", "client") ?>
+  <?= loadComponents("dashboard/featured-categories", "client", ['categories' => $categories]) ?>
   <!-- quảng cáo -->
   <?= loadComponents("dashboard/promotional-banner", "client") ?>
+  
   <!-- sản phẩm nổi bật -->
-  <?= loadComponents("dashboard/popular-products", "client") ?>
+  <?php if (isset($foods)) : ?>
+    <?= loadComponents("dashboard/popular-products", "client", ['foods' => $foods]) ?>
+  <?php endif; ?>
+
   <!-- Sản phẩm best sell -->
   <?= loadComponents("dashboard/best-sells", "client") ?>
+
   <?= loadComponents("dashboard/feature-section", "client") ?>
 
 </main>
@@ -51,12 +60,14 @@
 
 
 <!-- Jquery -->
-<script src="/assets/js/vendors/jquery.min.js"></script>
-
+<!-- <script src="/assets/libs/jquery/jquery.min.js"></script> -->
 <!-- Bootstrap JS -->
 <?= loadPartial("script") ?>
 
+<?= loadPartial("script-modal-alert") ?>
+<script src="/assets/libs/toastr/toastr.min.js"></script>
 
+<script src="/assets/js/client/add-to-cart.js"></script>
 
 
 <!-- Theme JS -->
@@ -66,6 +77,7 @@
 <script src="/assets/libs/tiny-slider/tiny-slider.js"></script>
 <script src="/assets/js/vendors/tns-slider.js"></script>
 <script src="/assets/js/vendors/zoom.js"></script>
+
 
 
 </body>

@@ -19,8 +19,6 @@
 
 
 
-   <script src="/assets/js/vendors/validation.js"></script>
-
 
    <main>
       <!-- section -->
@@ -51,8 +49,7 @@
                <!-- col -->
                <?= loadComponents('shop/filter-sidebar', 'client') ?>
 
-               <?= loadComponents('shop/product-list', 'client') ?>
-
+          
 
             </div>
          </div>
@@ -69,7 +66,7 @@
 
 
    <!-- Jquery -->
-   <!-- <script src="/assets/js/vendors/jquery.min.js"></script> -->
+   <script src="/assets/js/vendors/jquery.min.js"></script>
 
    <script src="/assets/libs/nouislider/nouislider.min.js"></script>
    <script src="/assets/libs/wnumb/wNumb.min.js"></script>

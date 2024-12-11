@@ -28,7 +28,7 @@
             renderPageHeader($title, $breadcrumbs, $actionButton);
             ?>
 
-          
+
             <!-- row -->
             <div class="row">
                <div class="col-xl-12 col-12 mb-5">
@@ -77,124 +77,56 @@
                               </thead>
                               <tbody>
 
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="productOne" />
-                                          <label class="form-check-label" for="productOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-md" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Snack khoai tây</a></td>
-                                    <td>Đồ ăn vặt & Snack</td>
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Hoạt động</span>
-                                    </td>
-                                    <td>418.000đ</td>
-                                    <td>24/11/2022</td>
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Xóa
+                                 <?php if (isset($foods) && !empty($foods)) : ?>
+                                    <?php foreach ($foods as $food) : ?>
+                                       <tr>
+                                          <td>
+                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="productOne" />
+                                                <label class="form-check-label" for="productOne"></label>
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <a href="#!"><img src="<?= $food['hinhAnh'][0] ?>" alt="product" class="avatar-md" /></a>
+                                          </td>
+                                          <td><a href="#" class="text-reset"><?= $food['tenSanPham'] ?></a></td>
+                                          <td> <?=  $food['tenDanhMuc'] ?></td>
+                                          <td>
+                                             <span class="badge bg-light-primary text-dark-primary"> <?= $food['trangThai'] ?></span>
+                                          </td>
+                                          <td><?= number_format($food['gia'], 0, ',', '.') ?>đ</td>
+                                          <td><?=   date('d-m-Y', strtotime($food['ngayTao'])) ?></td>
+                                        
+                                          <td>
+                                             <div class="dropdown">
+                                                <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                   <i class="feather-icon icon-more-vertical fs-5"></i>
                                                 </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Sửa
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
+                                                <ul class="dropdown-menu">
+                                                   <li>
+                                                      <a class="dropdown-item" href="#">
+                                                         <i class="bi bi-trash me-3"></i>
+                                                         Xóa
+                                                      </a>
+                                                   </li>
+                                                   <li>
+                                                      <a class="dropdown-item" href="#">
+                                                         <i class="bi bi-pencil-square me-3"></i>
+                                                         Sửa
+                                                      </a>
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 <?php else : ?>
+                                    <tr>
+                                       <td colspan="8" class="text-center">Không có sản phẩm nào</td>
+                                    </tr>
+                                 <?php endif; ?>
 
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="productOne" />
-                                          <label class="form-check-label" for="productOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-md" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Snack khoai tây</a></td>
-                                    <td>Đồ ăn vặt & Snack</td>
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Hoạt động</span>
-                                    </td>
-                                    <td>418.000đ</td>
-                                    <td>24/11/2022</td>
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Xóa
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Sửa
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="productOne" />
-                                          <label class="form-check-label" for="productOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-md" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Snack khoai tây</a></td>
-                                    <td>Đồ ăn vặt & Snack</td>
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Hoạt động</span>
-                                    </td>
-                                    <td>418.000đ</td>
-                                    <td>24/11/2022</td>
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Xóa
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Sửa
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
+
 
                               </tbody>
                            </table>

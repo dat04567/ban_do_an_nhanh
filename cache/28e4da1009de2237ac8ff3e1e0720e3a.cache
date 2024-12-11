@@ -1,0 +1,21 @@
+a:2:{s:7:"expires";i:1733797379;s:5:"value";a:2:{s:4:"data";a:2:{i:0;a:5:{s:9:"idSanPham";s:36:"3906523c-4738-4ddb-82fc-bf54c82bb80b";s:10:"tenSanPham";s:15:"Bánh chocolate";s:3:"gia";s:9:"130000.00";s:7:"hinhAnh";s:111:"/assets/images/products/img_6756d1936c7ed5.22648104.svg;/assets/images/products/img_6756d1936dfc77.14561537.svg";s:10:"tenDanhMuc";s:23:"Bánh,Bánh quy hãng A";}i:1;a:5:{s:9:"idSanPham";s:36:"ce929782-40bf-411c-b553-35e22d6c99f4";s:10:"tenSanPham";s:9:"Bánh lan";s:3:"gia";s:9:"120000.00";s:7:"hinhAnh";s:223:"/assets/images/products/img_6756947a452431.26217853.svg;/assets/images/products/img_6756947a482626.29909536.svg;/assets/images/products/img_6756947a561c36.19250744.svg;/assets/images/products/img_6756947a587913.55334755.svg";s:10:"tenDanhMuc";s:5:"Bánh";}}s:3:"sql";s:1374:"SELECT 
+                                          SP.idSanPham,
+                                          SP.tenSanPham AS tenSanPham, 
+                                          SP.price AS gia ,
+                                          GROUP_CONCAT(DISTINCT HA.duongDan SEPARATOR ';') AS hinhAnh,
+                                          GROUP_CONCAT(DISTINCT DMC.tenDanhMucCon SEPARATOR ',') AS tenDanhMuc
+                                          FROM 
+                                             SanPham SP
+                                          LEFT JOIN 
+                                             SanPhamDanhMuc SPDM ON SP.idSanPham = SPDM.idSanPham
+                                          LEFT JOIN 
+                                             DanhMucCon DMC ON SPDM.idDanhMucCon = DMC.idDanhMucCon
+                                          LEFT JOIN 
+                                             HinhAnh HA ON SP.idSanPham = HA.idSanPham
+                                          WHERE 
+                                             SP.isDeleted = FALSE
+                                          GROUP BY    
+                                             SP.idSanPham, SP.tenSanPham, SP.price
+                                          ORDER BY
+                                             SP.createAt DESC
+                                          LIMIT 10";}}

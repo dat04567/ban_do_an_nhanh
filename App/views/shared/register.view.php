@@ -1,4 +1,5 @@
 <?= loadPartial('head') ?>
+<link href="/assets/css/custom.css" rel="stylesheet" />
 
 </head>
 
@@ -19,6 +20,13 @@
    </div>
 
    <main>
+
+      <!-- modal  -->
+      <?php
+         loadPartial('modal-alert');
+
+      ?>
+
       <!-- section -->
 
       <section class="my-lg-14 my-8">
@@ -59,6 +67,8 @@
                         <div class="col">
                            <!-- input -->
                            <?php
+
+
                            renderInputField(
                               'firstName',          // Tên trường
                               'Tên',                // Nhãn
@@ -126,6 +136,7 @@
    <?= loadComponents('layout/footer', 'client') ?>
 
    <?= loadPartial('script') ?>
+   <?= loadPartial('script-modal-alert') ?>
 
 
    <script src="/assets/js/vendors/password.js"></script>

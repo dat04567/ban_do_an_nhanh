@@ -1,106 +1,101 @@
 <?php
 
-/**
- *  Route class
- *  by Ho Tan Dat
- */
-
 namespace Framework;
 
 use App\Controllers\ErrorController;
-
-
+use Exception;
+use Framework\middleware\AuthMiddleware;
+use Framework\middleware\MiddlewareInterface;
 
 class Router
 {
   protected array $routes = [];
-  protected array $dynamicRoutes = [];
-
+  protected array $controllerNamespaces = [
+    'admin' => 'App\\Controllers\\admin\\',
+    'public' => 'App\\Controllers\\public\\',
+    'api' => 'App\\Controllers\\api\\',
+    'default' => 'App\\Controllers\\'
+  ];
 
   private function sanitizeUri($uri)
   {
-    // Remove multiple forward slashes
     $uri = preg_replace('#/+#', '/', $uri);
-
-    // Remove trailing slash
     $uri = rtrim($uri, '/');
-
-    // Remove any .. or unsafe characters
     $uri = str_replace(['..', './'], '', $uri);
-
-    // Ensure leading slash
     if (strpos($uri, '/') !== 0) {
       $uri = '/' . $uri;
     }
-
     return $uri;
   }
 
-  /**
-   * Convert URI to regex pattern
-   *
-   * @param string $uri
-   * @return string
-   */
   private function convertUriToPattern($uri)
   {
-    // Convert {parameter} to named capture group (?P<parameter>[^/]+)
     return preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $uri);
   }
 
-
   /**
-   * Add a new route
+   * Đăng ký route với namespace cụ thể
    *
-   * @param string $method
-   * @param string $uri
-   * @param string $action
-   * @param array $middleware
-   * 
-   * 
+   * @param string $method HTTP method
+   * @param string $uri URI pattern
+   * @param string $action Controller action (có thể bao gồm namespace)
+   * @param array $middleware Middleware array
    * @return void
    */
-
   public function registerRoute($method, $uri, $action, $middleware = [])
   {
-    // Sanitize URI
     $uri = $this->sanitizeUri($uri);
-
     $routeKey = strtoupper($method) . ' ' . $uri;
 
-    list($controller, $controllerMethod) = explode('@', $action);
+    // Phân tích action để lấy namespace, controller và method
+    $this->parseAction($action, $controller, $controllerMethod, $namespace);
 
     $this->routes[$routeKey] = [
       'method' => $method,
       'uri' => $uri,
       'controller' => $controller,
       'controllerMethod' => $controllerMethod,
+      'namespace' => $namespace,
       'middleware' => $middleware,
       'pattern' => $this->convertUriToPattern($uri)
     ];
   }
 
   /**
-   * Extract parameters from URI based on pattern
+   * Phân tích chuỗi action để lấy namespace, controller và method
    *
-   * @param string $pattern
-   * @param string $uri
-   * @return array|null
+   * @param string $action Chuỗi action (ví dụ: "admin::UserController@index")
+   * @param string &$controller Biến tham chiếu để lưu tên controller
+   * @param string &$method Biến tham chiếu để lưu tên method
+   * @param string &$namespace Biến tham chiếu để lưu namespace
    */
+  private function parseAction($action, &$controller, &$method, &$namespace)
+  {
+    // Kiểm tra xem action có chứa namespace không (format: "namespace::Controller@method")
+    if (strpos($action, '::') !== false) {
+      list($namespace, $controllerAction) = explode('::', $action);
+      list($controller, $method) = explode('@', $controllerAction);
+    } else {
+      // Nếu không có namespace, sử dụng namespace mặc định
+      list($controller, $method) = explode('@', $action);
+      $namespace = 'default';
+    }
+  }
+
   private function extractParameters($pattern, $uri)
   {
     $pattern = '#^' . $pattern . '$#';
     if (preg_match($pattern, $uri, $matches)) {
-      // Remove numeric keys
       return array_filter($matches, function ($key) {
-        return !is_numeric(value: $key);
+        return !is_numeric($key);
       }, ARRAY_FILTER_USE_KEY);
-      
     }
     return null;
   }
 
-
+  /**
+   * Magic method để hỗ trợ các HTTP method
+   */
   public function __call($method, $arguments)
   {
     $httpMethods = ['get', 'post', 'put', 'delete', 'patch', 'options'];
@@ -108,58 +103,95 @@ class Router
     $controller = $arguments[1];
     $middleware = $arguments[2] ?? [];
 
-
     $uri = $this->sanitizeUri($uri);
 
-
     if (in_array(strtolower($method), $httpMethods)) {
-
       $this->registerRoute(strtoupper($method), $uri, $controller, $middleware);
     } else {
       throw new \BadMethodCallException("Method $method does not exist");
     }
   }
 
-
-
+  /**
+   * Thêm namespace mới
+   *
+   * @param string $key Khóa để xác định namespace
+   * @param string $namespace Đường dẫn namespace
+   */
+  public function addNamespace($key, $namespace)
+  {
+    $namespace = rtrim($namespace, '\\') . '\\';
+    $this->controllerNamespaces[$key] = $namespace;
+  }
 
   /**
-   * Route the request
-   * 
-   * @param string $uri
-   * @param string $method
-   * @return void
+   * Khởi tạo controller dựa trên namespace
+   *
+   * @param string $controller Tên controller
+   * @param string $namespace Key của namespace
+   * @return object|null
    */
+  private function instantiateController($controller, $namespace)
+  {
+    if (!isset($this->controllerNamespaces[$namespace])) {
+      throw new \RuntimeException("Namespace '$namespace' not registered");
+    }
+
+    $fullClassName = $this->controllerNamespaces[$namespace] . $controller;
+
+    if (!class_exists($fullClassName)) {
+      throw new \RuntimeException("Controller class '$fullClassName' not found");
+    }
+
+    return new $fullClassName();
+  }
+
+  private function executeMiddleware($middlewareStack, $request, $controller, $method, $parameters)
+  {
+    if (empty($middlewareStack)) {
+      return $controller->$method($parameters);
+    }
+
+    $middleware = array_shift($middlewareStack);
+
+    // If middleware is a string, convert it to an instance
+    if (is_string($middleware)) {
+      $middlewareClass = "Framework\\middleware\\{$middleware}";
+      $middleware = new $middlewareClass();
+    }
+
+    if (!$middleware instanceof MiddlewareInterface) {
+      throw new \RuntimeException("Middleware must implement MiddlewareInterface");
+    }
+
+    return $middleware->handle($request, function ($request) use ($middlewareStack, $controller, $method, $parameters) {
+      return $this->executeMiddleware($middlewareStack, $request, $controller, $method, $parameters);
+    });
+  }
 
 
   public function route()
   {
     $requestMethod = $_SERVER['REQUEST_METHOD'];
     $path = $this->sanitizeUri(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-    // Tạo khóa route sử dụng phương thức và URI
     $routeKey = $requestMethod . ' ' . $path;
 
-
-
-    // Tìm route phù hợp
     if (isset($this->routes[$routeKey])) {
       $route = $this->routes[$routeKey];
       $parameters = [];
     } else {
-
       $route = null;
       $parameters = [];
 
-
-
+      // Tìm route phù hợp với pattern
       foreach ($this->routes as $registeredRoute) {
         if ($registeredRoute['method'] !== $requestMethod) {
           continue;
         }
 
         $params = $this->extractParameters($registeredRoute['pattern'], $path);
-      
+
+        
         if ($params !== null) {
           $route = $registeredRoute;
           $parameters = $params;
@@ -167,27 +199,32 @@ class Router
         }
       }
 
-
-
-      // Xử lý lỗi 404 Not Found
       if (!$route) {
         ErrorController::notFound();
         return;
       }
     }
+    // Khởi tạo controller với namespace tương ứng
+    $controllerInstance = $this->instantiateController(
+      $route['controller'],
+      $route['namespace']
+    );
 
-    // Xác định namespace của controller dựa trên đường dẫn
-    if (strpos($path, '/admin') === 0) {
-      $controllerClass = 'App\\Controllers\\admin\\' . $route['controller'];
-    } else {
-      $controllerClass = 'App\\Controllers\\client\\' . $route['controller'];
-    }
-
-    // Khởi tạo controller và gọi phương thức
-    $controllerInstance = new $controllerClass();
     $controllerMethod = $route['controllerMethod'];
 
-    // Gọi phương thức của controller
-    $controllerInstance->$controllerMethod($parameters);
+    if (!method_exists($controllerInstance, $controllerMethod)) {
+      throw new \RuntimeException(
+        "Method {$controllerMethod} not found in controller {$route['controller']}"
+      );
+    }
+
+
+    return $this->executeMiddleware(
+      $route['middleware'],
+      $_REQUEST,
+      $controllerInstance,
+      $controllerMethod,
+      $parameters
+    );
   }
 }

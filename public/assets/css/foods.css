@@ -1,0 +1,58 @@
+
+
+/*  */
+
+
+.remove-ingredient
+{
+   font-size: 1rem;
+}
+
+
+.remove-ingredient:hover
+{
+   color: #ff0000;
+}
+
+
+
+.number-ingredient
+{
+   width: 50px;
+   border: none;
+}
+
+.number-ingredient:focus
+{
+   outline: none;
+  
+   box-shadow: none;
+}
+
+.increase, .decrease
+{
+   font-size: 1.5rem;
+}
+
+
+.increase:hover
+{
+   color: #00ff00;
+}
+   
+
+.decrease:hover
+{
+   color: #ff0000;
+}
+
+.list-group-item-action:hover .number-ingredient
+{
+   background-color: #f0f3f2;
+}
+
+.name-ingredient
+{
+   width: 80px;
+}
+

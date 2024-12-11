@@ -54,7 +54,6 @@
                <div class="card py-1 border-0 mb-8">
                   <div>
                      <h1 class="fw-bold">Giỏ hàng</h1>
-                     <p class="mb-0">Mã đơn hàng: 382480</p>
                   </div>
                </div>
             </div>
@@ -334,7 +333,6 @@
 
 <!-- Giỏ hàng -->
 
-<?= loadComponents('modal/shop-cart', 'client') ?>
 
 <?= loadComponents('layout/footer', 'client') ?>
 

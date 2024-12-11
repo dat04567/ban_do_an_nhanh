@@ -1,5 +1,6 @@
 <?= loadPartial('head') ?>
 
+<link href="/assets/css/custom.css" rel="stylesheet" />
 </head>
 
 
@@ -20,6 +21,12 @@
 
 
    <main>
+
+
+      <!-- modal  -->
+      <?php
+      loadPartial('modal-alert');
+      ?>
       <!-- section -->
       <section class="my-lg-14 my-8">
          <div class="container">
@@ -36,24 +43,22 @@
                      <p>Chào mừng trở lại FoodFashion! Nhập email của bạn để bắt đầu.</p>
                   </div>
 
-                  <form class="needs-validation" novalidate>
+                  <form class="needs-validation" novalidate method="POST" action="/sign-in">
                      <div class="row g-3">
                         <!-- row -->
 
                         <div class="col-12">
                            <!-- input -->
                            <label for="formSigninEmail" class="form-label visually-hidden">Địa chỉ email</label>
-                           <input type="email" class="form-control" id="formSigninEmail" placeholder="Email" required />
-                           <div class="invalid-feedback">Vui lòng nhập email.</div>
+                           <input type="email" name="email" class="form-control" id="formSigninEmail" placeholder="Email" value="<?= isset($email) ? htmlspecialchars($email) : '' ?>" />
                         </div>
                         <div class="col-12">
                            <!-- input -->
                            <div class="password-field position-relative">
                               <label for="formSigninPassword" class="form-label visually-hidden">Mật khẩu</label>
                               <div class="password-field position-relative">
-                                 <input type="password" class="form-control fakePassword" id="formSigninPassword" placeholder="*****" required />
+                                 <input type="password" name="password" class="form-control fakePassword" id="formSigninPassword" placeholder="*****" value="<?= isset($password) ? htmlspecialchars($password) : '' ?>" />
                                  <span><i class="bi bi-eye-slash passwordToggler"></i></span>
-                                 <div class="invalid-feedback">Vui lòng nhập mật khẩu.</div>
                               </div>
                            </div>
                         </div>
@@ -71,6 +76,15 @@
                         </div>
                         <!-- btn -->
                         <div class="col-12 d-grid"><button type="submit" class="btn btn-primary">Đăng nhập</button></div>
+
+                        <!-- errors -->
+                        <?php if (isset($errors)) : ?>
+                           <div class="col-12">
+                              <div class="alert alert-danger mt-3" role="alert">
+                                 <?php echo implode('<br>', $errors); ?>
+                              </div>
+                           </div>
+                        <?php endif; ?>
                         <!-- link -->
                         <div>
                            Chưa có tài khoản?
@@ -86,6 +100,7 @@
 
    <?= loadComponents('layout/footer', 'client') ?>
    <?= loadPartial('script') ?>
+   <?= loadPartial('script-modal-alert') ?>
+   <script src="/assets/js/vendors/password.js"></script>
 
-   <script src="/assets/js/vendors/validation.js"></script>
 </body>

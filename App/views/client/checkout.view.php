@@ -17,13 +17,11 @@
 <!-- modal địa chỉ giao hàng -->
 <?= loadComponents("modal/location-modal", 'client') ?>
 
+<?= loadComponents('modal/address-modal', 'client') ?>
+
 
 
 <!--  Main Start  -->
-
-
-<script src="/assets/js/vendors/validation.js"></script>
-
 <main>
    <div class="mt-4">
       <div class="container">
@@ -79,7 +77,7 @@
                               Thêm địa chỉ giao hàng
                            </a>
                            <!-- btn -->
-                           <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addAddressModal">Thêm địa chỉ mới</a>
+                           <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#themDiaChiModal  ">Thêm địa chỉ mới</a>
                            <!-- collapse -->
                         </div>
                         <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">

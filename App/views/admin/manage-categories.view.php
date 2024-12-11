@@ -24,10 +24,18 @@
             ];
 
 
-            $actionButton = '<a href="add-category.php" class="btn btn-primary">Thêm Danh mục</a>';
+            $actionButton = '<a href="/admin/categories/create" class="btn btn-primary">Thêm Danh mục</a>';
 
             // Render header
             renderPageHeader($title, $breadcrumbs, $actionButton);
+
+
+            $message = 'Bạn có muốn xoá danh mục này không ?';
+            loadComponents('layout/modal', 'admin', ['message' => $message]);
+
+
+            // load alert modal
+            loadPartial('modal-alert');
             ?>
 
             <div class="row">
@@ -45,9 +53,9 @@
                            <!-- select option -->
                            <div class="col-xl-2 col-md-4 col-12">
                               <select class="form-select">
-                                 <option selected>Status</option>
-                                 <option value="Published">Published</option>
-                                 <option value="Unpublished">Unpublished</option>
+                                 <option selected>Trạng thái</option>
+                                 <option value="active">Hoạt động</option>
+                                 <option value="isActive">Không hoạt động </option>
                               </select>
                            </div>
                         </div>
@@ -65,91 +73,55 @@
                                           <label class="form-check-label" for="checkAll"></label>
                                        </div>
                                     </th>
-                                    <th>Icon</th>
+                                    <th>Hình ảnh</th>
                                     <th>Tên</th>
-                                    <th>IdMonAn</th>
                                     <th>Trạng thái</th>
-
-                                    <th></th>
+                                    <th>Action</th>
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="categoryOne" />
-                                          <label class="form-check-label" for="categoryOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/icons/snacks.svg" alt="" class="icon-shape icon-sm" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">Snack & Munchies</a></td>
-                                    <td>12</td>
 
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                    </td>
+                                 <?php if (!empty($categories)) : ?>
+                                    <?php foreach ($categories as $category) : ?>
+                                       <?php
+                                       $badgeColor = $category['isActive'] == 1 ? 'bg-success' : 'bg-danger';
+                                       ?>
+                                       <tr>
+                                          <td>
+                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="categoryOne" />
+                                                <label class="form-check-label" for="categoryOne"></label>
+                                             </div>
+                                          </td>
 
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Delete
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Edit
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
-                                 <tr>
-                                    <td>
-                                       <div class="form-check ms-4">
-                                          <input class="form-check-input" type="checkbox" value="" id="subcategoryOne" />
-                                          <label class="form-check-label" for="subcategoryOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/icons/chips.svg" alt="" class="icon-shape icon-sm" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset ms-4">Chips</a></td>
-                                    <td>5</td>
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Published</span>
-                                    </td>
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Delete
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Edit
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
+                                          <td> <a href=""> <img src="<?= $category['hinhAnh'] ?>" alt="" class="icon-shape icon-sm"> </a> </td>
+                                          <td> <?= $category['tenDanhMuc'] ?> </td>
+                                          <td>
+                                             <span class="badge <?= $badgeColor ?> "> <?= $category['isActive'] == 1 ? 'Hoạt động' : 'Không hoạt động' ?> </span>
+                                          </td>
+
+
+                                          </td>
+                                          <td>
+                                             <a href="" class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                             </a>
+                                             <form action="/admin/categories/<?= $category['idDanhMuc'] ?>" method="POST" class="d-inline delete-form">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-sm btn-danger mb-0">Delete</button>
+                                             </form>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 <?php else : ?>
+                                    <tr>
+                                       <td colspan="5" class="text-center">Không có danh mục nào</td>
+                                    </tr>
+                                 <?php endif; ?>
+
+
+
+
 
                               </tbody>
                            </table>
@@ -177,6 +149,11 @@
 
 
    <?= loadPartial('script') ?>
+
+   <script src="/assets/js/submit-modal.js"></script>
+   <?= loadPartial('script-modal-alert') ?>
+
+
 </body>
 
 </html>

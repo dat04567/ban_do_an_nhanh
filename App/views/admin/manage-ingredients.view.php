@@ -1,6 +1,8 @@
 <?= loadPartial('head') ?>
 
+
 <link href="/assets/css/custom.css" rel="stylesheet" />
+
 </head>
 
 <body id="">
@@ -14,6 +16,8 @@
          <div class="container">
 
             <?php
+
+
             loadComponents('ui/header-manage');
 
             // Định nghĩa các thông số cho header
@@ -22,11 +26,19 @@
                ['label' => 'Dashboard', 'href' => '/admin'],
                ['label' => 'Nguyên liệu', 'active' => true]
             ];
-            $actionButton = '<a href="add-product.php" class="btn btn-primary">Thêm nguyên liệu</a>';
+            $actionButton = '<a href="/admin/ingredients/create" class="btn btn-primary">Thêm nguyên liệu</a>';
 
             // Render header
             renderPageHeader($title, $breadcrumbs, $actionButton);
+
+
+            // load alert modal
+            loadPartial('modal-alert');
+
+
             ?>
+
+
 
 
             <!-- row -->
@@ -43,9 +55,17 @@
                               </form>
                            </div>
                            <!-- select option -->
-                           
+
                         </div>
                      </div>
+
+                     <!-- Modal -->
+                     <?php
+                     $message = 'Bạn có muốn xoá nguyên liệu này không ?';
+                     loadComponents('layout/modal', 'admin', ['message' => $message]);
+
+                     ?>
+
                      <!-- card body -->
                      <div class="card-body p-0">
                         <!-- table -->
@@ -53,7 +73,7 @@
                            <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
                               <thead class="bg-light">
                                  <tr>
-                                    <th>
+                                    <th class="text-center">
                                        <div class="form-check">
                                           <input class="form-check-input" type="checkbox" value="" id="checkAll" />
                                           <label class="form-check-label" for="checkAll"></label>
@@ -62,46 +82,49 @@
                                     <th>Tên nguyên liệu</th>
                                     <th>Giá nguyên liệu </th>
                                     <th>Đơn vị</th>
-                                    
-                                    <th></th>
+                                    <th>Trạng thái</th>
+                                    <th>Action</th>
                                  </tr>
                               </thead>
-                              <tbody>
-
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="productOne" />
-                                          <label class="form-check-label" for="productOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>Đường</td>
-                                    <td>100</td>
-                                    <td>kg</td>
-                                    
-
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Xóa
-                                                </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Sửa
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
+                              <tbody id="ingredients-table-body">
+                                 <?php if (empty($ingredients)) : ?>
+                                    <tr>
+                                       <td colspan="5" class="text-center">Không có nguyên liệu nào</td>
+                                    </tr>
+                                 <?php else : ?>
+                                    <?php foreach ($ingredients as $ingredient) : ?>
+                                       <?php
+                                       $classTrangThai = $ingredient['isDeleted'] == 0 ? 'bg-success' : 'bg-danger';
+                                       ?>
+                                       <tr>
+                                          <td>
+                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="ingredient<?= $ingredient['idNguyenLieu'] ?>" />
+                                                <label class="form-check-label" for="ingredient<?= $ingredient['idNguyenLieu'] ?>"></label>
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <a href="/admin/ingredients/<?= $ingredient['idNguyenLieu'] ?>" class="text-reset"><?= $ingredient['tenNguyenLieu'] ?></a>
+                                          </td>
+                                          <td><?= number_format($ingredient['giaNguyenLieu'], 0, ',', '.') ?> VND</td>
+                                          <td><?= $ingredient['donVi'] ?></td>
+                                          <td>
+                                             <span class="badge <?= $classTrangThai ?>">
+                                                <?= $ingredient['isDeleted'] == 0 ? 'Còn sử dụng' : 'Đã xoá' ?>
+                                             </span>
+                                          </td>
+                                          <td>
+                                             <a href="/admin/ingredients/<?= $ingredient['idNguyenLieu'] ?>/edit" class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                             </a>
+                                             <form action="/admin/ingredients/<?= $ingredient['idNguyenLieu'] ?>" class="d-inline-block ms-2 delete-form" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-sm btn-danger mb-0">Delete</button>
+                                             </form>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 <?php endif; ?>
 
 
                               </tbody>
@@ -129,7 +152,12 @@
    </div>
 
 
+
    <?= loadPartial('script') ?>
+   <script src="/assets/js/submit-modal.js"></script>
+   <?= loadPartial('script-modal-alert') ?>
+
+
 </body>
 
 </html>

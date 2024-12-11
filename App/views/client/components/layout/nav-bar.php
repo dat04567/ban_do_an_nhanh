@@ -1,3 +1,12 @@
+<?
+$currentPath = $_SERVER['REQUEST_URI'];
+
+$arrayPath = [
+   '/cart',
+   '/checkout',
+]
+?>
+
 <!-- máy tính  -->
 <div class="border-bottom">
    <!-- language  -->
@@ -122,90 +131,122 @@
                            class="feather feather-heart">
                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success  ">
                            5
 
                         </span>
                      </a>
                   </div>
+                  <?php
+
+                  use Framework\SessionManager;
+
+                  $session = SessionManager::getInstance();
+                  ?>
                   <div class="list-inline-item me-5">
 
                      <a href="#" role="button" class="text-muted" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg
-                           xmlns="http://www.w3.org/2000/svg"
-                           width="20"
-                           height="20"
-                           viewBox="0 0 24 24"
-                           fill="none"
-                           stroke="currentColor"
-                           stroke-width="2"
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           class="feather feather-user">
-                           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                           <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                        <!-- <img src="../assets/images/avatar/avatar-1.jpg" alt="" class="avatar avatar-md rounded-circle" /> -->
+                        <?php if ($session->has('user')) : ?>
+                           <?php if (isset($session->get('user')['avatar'])) : ?>
+                              <img src="/assets/images/avatar/<?= $session->get('user')['avatar'] ?>" alt="" class="avatar avatar-md rounded-circle" />
+                           <?php else : ?>
+                              <img src="/assets/images/avatar/user-default.webp" alt="" class="avatar avatar-md rounded-circle" />
+                           <?php endif; ?>
+                        <?php else : ?>
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="feather feather-user">
+                              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                           </svg>
+                        <?php endif; ?>
                      </a>
 
+
                      <div class="dropdown-menu  p-0 " id="user-menu">
-                        <!-- <div class="lh-1 px-5 py-4 border-bottom">
-                           <h5 class="mb-1 h6">Hồ Tấn Đạt </h5>
-                           <small> dathtcomputer@gmail.com </small>
-                        </div> -->
+                        <?php if ($session->has('user')) : ?>
+                           <div class="lh-1 px-5 py-4 border-bottom">
+                              <h5 class="mb-1 h6"><?= $session->get('user')['firstName'] . ' ' . $session->get('user')['lastName'] ?></h5>
+                              <small><?= $session->get(key: 'user')['email'] ?></small>
+                           </div>
 
-                        <ul class="list-unstyled px-2 mb-0">
-                           <li>
-                              <a class="dropdown-item" href="/sign-in">Đăng nhập</a>
-                           </li>
-                           <li>
-                              <a class="dropdown-item" href="/sign-up">Đăng ký</a>
-                           </li>
-                           <li>
-                              <a class="dropdown-item" href="#!">Quên mật khẩu </a>
-                           </li>
-                           <!-- <li>
-                              <a class="dropdown-item" href="#!"> Cài đặt </a>
-                           </li>
-                           <li>
-                              <a class="dropdown-item" href="#!">Đơn mua</a>
-                           </li>
+                           <ul class="list-unstyled px-2 mb-0">
+                              <li>
+                                 <a class="dropdown-item" href="/account">Tài khoản</a>
+                              </li>
+                              <li>
+                                 <a class="dropdown-item" href="/order">Đơn hàng</a>
+                              </li>
+                              <li>
+                                 <a class="dropdown-item" href="/address">Địa chỉ</a>
+                              </li>
+                           </ul>
+                        <?php else : ?>
+                           <ul class="list-unstyled px-2 mb-0">
+                              <li>
+                                 <a class="dropdown-item" href="/sign-in">Đăng nhập</a>
+                              </li>
+                              <li>
+                                 <a class="dropdown-item" href="/sign-up">Đăng ký</a>
+                              </li>
+                              <li>
+                                 <a class="dropdown-item" href="/forgot-password">Quên mật khẩu </a>
+                              </li>
+                           </ul>
+                        <?php endif; ?>
 
-                           <li>
-                              <a class="dropdown-item" href="#!">Địa chỉ</a>
-                           </li> -->
 
                         </ul>
-                        <!-- <div class="border-top px-5 py-2">
-                           <a href="#">Đăng xuất</a>
-                        </div> -->
+                        <?php if ($session->has('user')) : ?>
+
+                           <form action="/sign-out" method="POST">
+                              <div class="border-top px-5 py-2">
+                                 <button type="submit" class="btn p-0 text-danger">Đăng xuất</button>
+                              </div>
+                           </form>
+
+                        <?php endif; ?>
                      </div>
 
 
 
+
+
+
                   </div>
-                  <div class="list-inline-item me-5 me-lg-0">
-                     <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
-                        <svg
-                           xmlns="http://www.w3.org/2000/svg"
-                           width="20"
-                           height="20"
-                           viewBox="0 0 24 24"
-                           fill="none"
-                           stroke="currentColor"
-                           stroke-width="2"
-                           stroke-linecap="round"
-                           stroke-linejoin="round"
-                           class="feather feather-shopping-bag">
-                           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                           <line x1="3" y1="6" x2="21" y2="6"></line>
-                           <path d="M16 10a4 4 0 0 1-8 0"></path>
-                        </svg>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                           1
-                        </span>
-                     </a>
-                  </div>
+                  <?php if (!in_array($currentPath, $arrayPath)) : ?>
+                     <div class="list-inline-item me-5 me-lg-0">
+
+                        <a class="text-muted position-relative" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button" aria-controls="offcanvasRight">
+                           <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="feather feather-shopping-bag">
+                              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                              <line x1="3" y1="6" x2="21" y2="6"></line>
+                              <path d="M16 10a4 4 0 0 1-8 0"></path>
+                           </svg>
+                           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success cart-count">
+                              
+                           </span>
+                        </a>
+                     </div>
+                  <?php endif; ?>
 
                   <div class="list-inline-item d-inline-block d-lg-none">
                      <!-- Button -->

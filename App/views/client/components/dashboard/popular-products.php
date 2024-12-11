@@ -8,22 +8,12 @@
 
       <div class="row g-4 row-cols-lg-5 row-cols-2 row-cols-md-3">
 
-         <?php
-         loadComponents('ui/product-item', "client");
-         for ($i = 0; $i < 10; $i++) {
-            $product = [
-               'index' => 'product' . $i,
-               'title' => 'Bánh Snack Khoai tây',
-               'rating' => 4.5,
-               'numReviews' => 149,
-               'originalPrice' => 18000,
-               'imageUrl' => 'https://www.claudeusercontent.com/api/placeholder/220/220',
-               'category' => 'Đồ ăn vặt'
-            ];
-            echo renderProductItem($product);
-         }
-         ?>
-         
+         <?php if (!empty($foods)): ?>
+            <?php foreach ($foods as $food): ?>
+               <?= loadComponents('ui/product-item', "client", ['food' => $food]) ?>
+            <?php endforeach; ?>
+         <?php endif; ?>
+
 
 
       </div>

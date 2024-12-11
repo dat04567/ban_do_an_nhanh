@@ -22,6 +22,7 @@ class Database
    private string $cacheMethod;
    private array $memoryCache = [];
    private string $cacheDir;
+   private $savepoints = [];
 
 
 
@@ -34,6 +35,7 @@ class Database
       'password' => '',
       'charset' => 'utf8mb4',
       'port' => '3306',
+      'cache_method' => 'file',  // 'file'  hoặc 'memory'  
       'options' => [
          PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
          PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -51,18 +53,23 @@ class Database
          $this->default_settings,
          $settings ?? $this->loadEnvSettings()
       );
-      
+
       $this->connect();
 
       // sử dụng cache file
       // Initialize cache settings
       $this->cacheMethod = $settings['cache_method'] ?? self::CACHE_FILE;
-      $this->cacheDir = $settings['cache_dir'] ?? __DIR__ . '/cache';
+      $this->cacheDir = $settings['cache_dir'] ?? basePath('cache');
 
-      // Create cache directory if using file cache
+
+      // Create cache directory if using file cache   
       if ($this->cacheMethod === self::CACHE_FILE) {
+
          if (!is_dir($this->cacheDir)) {
-            mkdir($this->cacheDir, 0777, true);
+
+            if (!mkdir($this->cacheDir, 0777, true)) {
+               throw new Exception("Failed to create directory: " . $this->cacheDir);
+            }
          }
       }
    }
@@ -87,7 +94,8 @@ class Database
          $dsn .= "dbname={$this->settings['db_name']};";
          $dsn .= "charset={$this->settings['charset']};";
          $dsn .= "port={$this->settings['port']}";
-      
+
+
 
          $this->conn = new PDO(
             $dsn,
@@ -95,11 +103,8 @@ class Database
             $this->settings['password'],
             $this->settings['options']
          );
-      
-       
-
       } catch (PDOException $e) {
-       
+
          throw new Exception("Connection failed: " . $e->getMessage());
       }
    }
@@ -120,69 +125,83 @@ class Database
    }
 
    // Enhanced query method with caching capability
-   public function query(string $sql, array $params = [], ?int $cacheDuration = null): PDOStatement
+   public function query(string $sql, array $params = [], ?int $cacheDuration = null)
    {
-      // $cacheKey = $this->generateCacheKey($sql, $params);
 
-      // if ($cacheDuration !== null && $cachedResult = $this->getCache($cacheKey)) {
-      //    return $cachedResult;
-      // }
+      $cacheKey = $this->generateCacheKey($sql, $params);
+
+
+      if ($cacheDuration !== null && $cachedResult = $this->getCache($cacheKey)) {
+         return $cachedResult;
+      }
 
       try {
-         
          $stmt = $this->conn->prepare($sql);
          $this->bindValues($stmt, $params);
          $stmt->execute();
 
-        
 
-         // if ($cacheDuration !== null) {
-         //    $this->setCache($cacheKey, $stmt, $cacheDuration);
-         // }
+
+
+         if ($cacheDuration !== null) {
+            // Lấy tất cả kết quả truy vấn dưới dạng mảng
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Đặt lại con trỏ của PDOStatement để có thể sử dụng lại
+            $stmt->execute();
+            // Lưu trữ kết quả vào cache
+            $this->setCache($cacheKey,  [
+               'data' => $result,
+               'sql' => $sql
+            ], $cacheDuration);
+         }
+
 
          return $stmt;
       } catch (PDOException $e) {
-
-         throw new Exception("Query failed: " . $e->getMessage());
+         throw new PDOException($e->getMessage());
       }
-      
-
    }
 
 
-   
 
-   // Begin a transaction with savepoint support
+
    public function beginTransaction(): bool
    {
       if ($this->transactionCount === 0) {
          $this->conn->beginTransaction();
       } else {
-         $this->conn->exec("SAVEPOINT trans{$this->transactionCount}");
+         $savepointName = 'trans' . $this->transactionCount;
+         $this->conn->exec("SAVEPOINT " . $savepointName);
+         $this->savepoints[] = $savepointName;
       }
       $this->transactionCount++;
       return true;
    }
 
-   // Commit a transaction
    public function commit(): bool
    {
       $this->transactionCount--;
+
       if ($this->transactionCount === 0) {
          return $this->conn->commit();
+      } else if ($this->transactionCount > 0) {
+         $savepointName = array_pop($this->savepoints);
+         $this->conn->exec("RELEASE SAVEPOINT " . $savepointName);
       }
       return true;
    }
 
-   // Rollback a transaction
    public function rollback(): bool
    {
       if ($this->transactionCount === 0) {
          return $this->conn->rollBack();
       }
 
-      $this->conn->exec("ROLLBACK TO SAVEPOINT trans{$this->transactionCount}");
       $this->transactionCount--;
+      if (count($this->savepoints) > 0) {
+         $savepointName = array_pop($this->savepoints);
+         $this->conn->exec("ROLLBACK TO SAVEPOINT " . $savepointName);
+      }
       return true;
    }
 
@@ -219,12 +238,16 @@ class Database
    {
       $filename = $this->cacheDir . '/' . md5($key) . '.cache';
 
+
       if (!file_exists($filename)) {
          return null;
       }
 
       $content = file_get_contents($filename);
       $data = unserialize($content);
+
+
+
 
       if ($data === false || !isset($data['expires']) || !isset($data['value'])) {
          unlink($filename);
@@ -263,20 +286,18 @@ class Database
    // Get cached result
    private function getCache(string $key)
    {
-      try {
-         switch ($this->cacheMethod) {
-            case self::CACHE_FILE:
-               return $this->getFileCache($key);
 
-            case self::CACHE_MEM:
-               return $this->getMemoryCache($key);
+      switch ($this->cacheMethod) {
+         case self::CACHE_FILE:
 
-            default:
-               return null;
-         }
-      } catch (Exception $e) {
-         error_log("Cache retrieval error: " . $e->getMessage());
-         return null;
+            return $this->getFileCache($key);
+
+
+         case self::CACHE_MEM:
+            return $this->getMemoryCache($key);
+
+         default:
+            return null;
       }
    }
 
@@ -284,11 +305,16 @@ class Database
 
    private function setFileCache(string $key, $value, int $duration): void
    {
+
       $filename = $this->cacheDir . '/' . md5($key) . '.cache';
+
+
+
       $data = [
          'expires' => time() + $duration,
          'value' => $value
       ];
+
 
       file_put_contents($filename, serialize($data), LOCK_EX);
    }
@@ -309,17 +335,14 @@ class Database
     */
    private function setCache(string $key, $value, int $duration): void
    {
-      try {
-         switch ($this->cacheMethod) {
-            case self::CACHE_FILE:
-               $this->setFileCache($key, $value, $duration);
-               break;
-            case self::CACHE_MEM:
-               $this->setMemoryCache($key, $value, $duration);
-               break;
-         }
-      } catch (Exception $e) {
-         error_log("Cache setting error: " . $e->getMessage());
+
+      switch ($this->cacheMethod) {
+         case self::CACHE_FILE:
+            $this->setFileCache($key, $value, $duration);
+            break;
+         case self::CACHE_MEM:
+            $this->setMemoryCache($key, $value, $duration);
+            break;
       }
    }
 
@@ -342,13 +365,18 @@ class Database
    }
 
    // Helper method for SELECT queries
-   public function select(string $sql, array $params = [], ?int $cacheDuration = null) :array
+   public function select(string $sql, array $params = [], ?int $cacheDuration = null): array
    {
-      return $this->query($sql, $params, $cacheDuration)->fetchAll();
-   }
 
+      $stmt = $this->query($sql, $params, $cacheDuration);
+
+      if ($stmt instanceof PDOStatement) {
+         return $stmt->fetchAll();
+      }
+      return $stmt['data'];
+   }
    // Helper method for INSERT queries
-   public function insert(string $table, array $data): int
+   public function insert(string $table, array $data): array
    {
       $fields = array_keys($data);
       $values = array_values($data);
@@ -357,11 +385,66 @@ class Database
       $sql = "INSERT INTO {$table} (" . implode(',', $fields) . ") VALUES ($placeholders)";
       $this->query($sql, $values);
 
-      return (int) $this->conn->lastInsertId();
+
+
+
+
+
+      $this->clearSingleCache($table);
+
+      return [
+         'lastInsertId' => $this->conn->lastInsertId()
+      ];
    }
 
+
+   // Helper method for DELETE queries
+
+   public function delete(string $table, string $where, array $params = []): array
+   {
+      $sql = "UPDATE {$table} SET isDeleted = true WHERE {$where}";
+      $stmt = $this->query($sql, $params);
+
+
+      $this->clearSingleCache($table);
+
+      return [
+         'rowCount' => $stmt->rowCount()
+      ];
+   }
+
+   public function clearSingleCache(string $table): void
+   {
+      switch ($this->cacheMethod) {
+         case self::CACHE_FILE:
+            // Read all cache files
+            $files = glob($this->cacheDir . '/*.cache');
+            foreach ($files as $file) {
+               $content = file_get_contents($file);
+               $data = unserialize($content)['value'];
+
+
+               // If cache contains query for this table, delete it
+               if (isset($data['sql']) && stripos($data['sql'], $table) !== false) {
+                  unlink($file);
+               }
+            }
+            break;
+
+         case self::CACHE_MEM:
+            // Scan memory cache for queries containing table name
+            // foreach ($this->memoryCache as $key => $data) {
+            //    if (isset($data['sql']) && stripos($data['sql'], $table) !== false) {
+            //       unset($this->memoryCache[$key]);
+            //    }
+            // }
+            break;
+      }
+   }
+
+
    // Helper method for UPDATE queries
-   public function update(string $table, array $data, string $where, array $params = []): int
+   public function update(string $table, array $data, string $where, array $params = []): array
    {
       $fields = array_keys($data);
       $set = implode('=?,', $fields) . '=?';
@@ -369,7 +452,9 @@ class Database
       $sql = "UPDATE {$table} SET {$set} WHERE {$where}";
       $stmt = $this->query($sql, [...array_values($data), ...$params]);
 
-      return $stmt->rowCount();
+      return [
+         'rowCount' => $stmt->rowCount()
+      ];
    }
 
    // Prevent cloning

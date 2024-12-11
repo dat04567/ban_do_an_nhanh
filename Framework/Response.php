@@ -34,9 +34,12 @@ class Response
       http_response_code($statusCode);
 
       // Chuyển đổi mảng sang JSON và in ra
-      echo json_encode($data);
+      echo json_encode($data, JSON_UNESCAPED_UNICODE);
       exit;
    }
+
+  
+
 
    // Phương thức chuyển hướng
    public static function redirect($url)

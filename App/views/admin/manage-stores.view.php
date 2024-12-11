@@ -1,6 +1,9 @@
 <?= loadPartial('head') ?>
 
+
 <link href="/assets/css/custom.css" rel="stylesheet" />
+
+
 </head>
 
 <body id="">
@@ -14,6 +17,9 @@
          <div class="container">
             <!-- row -->
             <?php
+
+
+
             loadComponents('ui/header-manage');
 
             // Định nghĩa các thông số cho header
@@ -28,7 +34,27 @@
 
             // Render header
             renderPageHeader($title, $breadcrumbs, $actionButton);
+
+            // load alert modal 
+            loadPartial('modal-alert');
+
             ?>
+
+
+
+
+
+
+            <!-- Modal delete -->
+            <?php
+            $message = 'Bạn có muốn xoá cửa hàng này không ?';
+            loadComponents('layout/modal', 'admin', ['message' => $message]);
+
+            ?>
+
+
+
+
 
             <div class="row">
                <div class="col-xl-12 col-12 mb-5">
@@ -58,58 +84,61 @@
                                           <label class="form-check-label" for="checkAll"></label>
                                        </div>
                                     </th>
-                                    <th>Cửa hàng ID</th>
                                     <th>Tên cửa hàng</th>
                                     <th>Email</th>
                                     <th>Tổng doanh thu</th>
                                     <th>Lợi nhuận</th>
+                                    <th>Trạng thái</th>
 
-                                    <th></th>
+                                    <th>Action</th>
                                  </tr>
                               </thead>
-                              <tbody>
-                                 <?php foreach ($stores as $store) : ?>
+                              <tbody id="stores-table-body">
+
+                                 <?php if (empty($stores)) : ?>
                                     <tr>
-                                       <td>
-                                          <div class="form-check">
-                                             <input class="form-check-input" type="checkbox" value="" id="categoryOne" />
-                                             <label class="form-check-label" for="categoryOne"></label>
-                                          </div>
-                                       </td>
-
-                                       <td class="text-truncate" style="max-width: 100px;">
-                                          <span><?= $store['idCuaHang'] ?> </span>
-                                       </td>
-                                       <td><?= $store['storeName'] ?> </td>
-                                       <td> <?= $store['email'] ?> </td>
-                                          <td> <?= number_format($store['tongDoanhThu'], 0, ',', '.') ?> VND</td>
-                                          <td> <?= number_format($store['loiNhuan'], 0, ',', '.') ?> VND</td>
-
-
-                                       <td>
-                                          <div class="dropdown">
-                                             <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="feather-icon icon-more-vertical fs-5"></i>
-                                             </a>
-                                             <ul class="dropdown-menu">
-                                                <li>
-                                                   <a class="dropdown-item" href="#">
-                                                      <i class="bi bi-trash me-3"></i>
-                                                      Delete
-                                                   </a>
-                                                </li>
-                                                <li>
-                                                   <a class="dropdown-item" href="/admin/stores/<?= $store['idCuaHang'] ?> ">
-                                                      <i class="bi bi-pencil-square me-3"></i>
-                                                      Edit
-                                                   </a>
-                                                </li>
-                                             </ul>
-                                          </div>
-                                       </td>
+                                       <td colspan="7" class="text-center">Không có cửa hàng nào</td>
                                     </tr>
-                                 <?php endforeach; ?>
-                               
+                                 <?php endif; ?>
+
+                                 <?php if (!empty($stores)) : ?>
+                                    <?php foreach ($stores as $store) : ?>
+
+                                       <?php
+                                       $classTrangThai = $store['isDeleted'] == 1 ? 'bg-danger' : 'bg-success';
+                                       ?>
+                                       <tr>
+                                          <td>
+                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="store<?= $store['idCuaHang'] ?>" id="store<?= $store['idCuaHang'] ?>" />
+                                                <label class="form-check-label" for="store<?= $store['idCuaHang'] ?>"></label>
+                                             </div>
+                                          </td>
+                                          <td><?= $store['storeName'] ?></td>
+                                          <td><?= $store['email'] ?></td>
+                                          <td><?= number_format($store['tongDoanhThu'], 0, ',', '.') ?> VND</td>
+                                          <td><?= number_format($store['loiNhuan'], 0, ',', '.') ?> VND</td>
+                                          <td >
+                                             <span class="badge <?= $classTrangThai ?>">
+                                                <?= $store['isDeleted'] == 1 ? 'Đã xoá' : 'Hoạt động' ?>
+                                             </span>
+                                          </td>
+                                          <td>
+                                             <a href="/admin/stores/<?= $store['idCuaHang'] ?>/edit" class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil-square me-2"></i>Edit
+                                             </a>
+                                             <form action="/admin/stores/<?= $store['idCuaHang'] ?>" class="d-inline-block ms-2 delete-form" method="POST">
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-sm btn-danger mb-0">Delete</button>
+                                             </form>
+                                          </td>
+                                       </tr>
+
+                                    <?php endforeach; ?>
+                                 <?php endif; ?>
+
+
+
 
                               </tbody>
                            </table>
@@ -136,7 +165,20 @@
    </div>
 
 
+
+
+
    <?= loadPartial('script') ?>
+
+
+   <script src="/assets/js/submit-modal.js"></script>
+
+   <?= loadPartial('script-modal-alert') ?>
+
+
+
+
+
 </body>
 
 </html>
