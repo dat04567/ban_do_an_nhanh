@@ -1,4 +1,4 @@
-<?
+<?php
 $currentPath = $_SERVER['REQUEST_URI'];
 
 $arrayPath = [
