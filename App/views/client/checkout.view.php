@@ -1,7 +1,7 @@
 <?= loadPartial("head") ?>
 
 <link rel="stylesheet" href="/assets/css/custom.css" />
-
+<link rel="stylesheet" href="/assets/libs/toastr/toastr.min.css" />
 </head>
 <!--  Header Start  -->
 
@@ -80,50 +80,11 @@
                            <a href="#" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#themDiaChiModal  ">Thêm địa chỉ mới</a>
                            <!-- collapse -->
                         </div>
-                        <div id="flush-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushExample">
-                           <div class="mt-5">
-                              <div class="row">
-                                 <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-                                    <!-- form -->
-                                    <div class="card card-body p-6">
-                                       <div class="form-check mb-4">
-                                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" checked />
-                                          <label class="form-check-label text-dark" for="homeRadio">Nhà</label>
-                                       </div>
-                                       <!-- address -->
-                                       <address>
-                                          <strong>Nguyễn Văn A</strong>
-                                          <br />
-                                          123 Đường Lê Lợi,
-                                          <br />
-                                          Quận 1, TP. Hồ Chí Minh,
-                                          <br />
-                                          <abbr title="Phone">P: 0123-456-789</abbr>
-                                       </address>
-                                       <span class="text-danger">Địa chỉ mặc định</span>
-                                    </div>
-                                 </div>
-                                 <div class="col-xl-6 col-lg-12 col-md-6 col-12 mb-4">
-                                    <!-- input -->
-                                    <div class="card card-body p-6">
-                                       <div class="form-check mb-4">
-                                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="officeRadio" />
-                                          <label class="form-check-label text-dark" for="officeRadio">Văn phòng</label>
-                                       </div>
-                                       <address>
-                                          <strong>Trần Thị B</strong>
-                                          <br />
-                                          456 Đường Nguyễn Trãi,
-                                          <br />
-                                          Quận 5, TP. Hồ Chí Minh,
-                                          <br />
-                                          <abbr title="Phone">P: 0987-654-321</abbr>
-                                       </address>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+
+                        <?= loadComponents('checkout/delivery-address', 'client', ['addresses' => $addresses ?? [] ]) ?>
+
+
+                     
                      </div>
 
                      <!-- accordion item -->
@@ -142,7 +103,7 @@
                                        <div class="d-flex">
                                           <div class="form-check">
                                              <!-- checkbox -->
-                                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="paypal" />
+                                             <input class="form-check-input" type="radio" name="phuongThuc" id="paypal" value="momo" />
                                              <label class="form-check-label ms-2" for="paypal"></label>
                                           </div>
                                           <div>
@@ -159,7 +120,7 @@
                                        <!-- check input -->
                                        <div class="d-flex">
                                           <div class="form-check">
-                                             <input class="form-check-input" type="radio" name="flexRadioDefault" id="cashonDelivery" />
+                                             <input class="form-check-input" type="radio" name="phuongThuc" id="cashonDelivery" value="cashonDelivery" />
                                              <label class="form-check-label ms-2" for="cashonDelivery"></label>
                                           </div>
                                           <div>
@@ -181,7 +142,7 @@
                                        aria-controls="flush-collapseOne">
                                        Trước
                                     </a>
-                                    <a href="#" class="btn btn-primary ms-2">Đặt hàng</a>
+                                    <button  type="submit" class="btn btn-primary ms-2">Đặt hàng</button>
                                  </div>
                               </div>
                            </div>
@@ -196,27 +157,31 @@
                         <h5 class="px-6 py-4 bg-transparent mb-0">Chi tiết đơn hàng</h5>
                         <ul class="list-group list-group-flush">
                            <!-- list group item -->
-                           <li class="list-group-item px-4 py-3">
-                              <div class="row align-items-center">
-                                 <div class="col-2 col-md-2">
-                                    <img src="../assets/images/products/product-img-1.jpg" alt="Ecommerce" class="img-fluid" />
+
+                           <?php foreach ($carts as $item): ?>
+                              <li class="list-group-item px-4 py-3">
+                                 <div class="row align-items-center">
+                                    <div class="col-2 col-md-2">
+                                       <img src="<?= $item['hinhAnh'][0] ?>" alt="<?= $item['tenSanPham'] ?>" class="img-fluid" />
+                                    </div>
+                                    <div class="col-5 col-md-5">
+                                       <h6 class="mb-0"><?= $item['tenSanPham'] ?></h6>
+                                       <span><small class="text-muted"><?= number_format($item['totalPrice'], 0, ',', '.') ?>₫ </small> </span>
+                                    </div>
+                                    <div class="col-2 col-md-2 text-center text-muted">
+                                       <span><?= $item['soLuong'] ?></span>
+                                    </div>
+                                    <div class="col-3 text-lg-end text-start text-md-end col-md-3">
+                                       <span class="fw-bold"><?= number_format($item['totalPrice'], 0, ',', '.') ?>₫</span>
+                                    </div>
                                  </div>
-                                 <div class="col-5 col-md-5">
-                                    <h6 class="mb-0">Sản phẩm a</h6>
-                                    <span><small class="text-muted">.98 / lb</small></span>
-                                 </div>
-                                 <div class="col-2 col-md-2 text-center text-muted">
-                                    <span>1</span>
-                                 </div>
-                                 <div class="col-3 text-lg-end text-start text-md-end col-md-3">
-                                    <span class="fw-bold">5.000đ</span>
-                                 </div>
-                              </div>
-                           </li>
+                              </li>
+                           <?php endforeach; ?>
+
                            <li class="list-group-item px-4 py-3">
                               <div class="d-flex align-items-center justify-content-between mb-2">
                                  <div>Tổng tiền hàng</div>
-                                 <div class="fw-bold">70.000đ</div>
+                                 <div class="fw-bold"><?= number_format($totalPrice, 0, ',', '.') ?>₫</div>
                               </div>
 
                               <div class="d-flex align-items-center justify-content-between">
@@ -231,7 +196,7 @@
                            <li class="list-group-item px-4 py-3">
                               <div class="d-flex align-items-center justify-content-between fw-bold">
                                  <div>Tổng cộng</div>
-                                 <div>70.000đ</div>
+                                 <div><?= number_format($totalPrice, 0, ',', '.') ?>₫</div>
                               </div>
                            </li>
                         </ul>
@@ -252,18 +217,17 @@
 
 <?= loadComponents('modal/shop-cart', 'client') ?>
 
-<?= loadComponents('layout/footer', 'client') ?>
-
-
-
-<!-- Jquery -->
-<!-- <script src="/assets/js/vendors/jquery.min.js"></script> -->
-
-
-<script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
-
 <!-- Bootstrap JS -->
 <?= loadPartial("script") ?>
+
+<?= loadComponents('layout/footer', 'client') ?>
+<script src="/assets/libs/toastr/toastr.min.js"></script>
+<script src="/assets/libs/flatpickr/flatpickr.min.js"></script>
+
+<script src="/assets/js/client/pages/checkout.js"></script>
+
+
+
 
 
 

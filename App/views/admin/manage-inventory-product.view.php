@@ -81,7 +81,7 @@
                                        </div>
                                     </th>
                                     <th>Tên cửa hàng</th>
-                                    <th>Tên Nguyên liệu </th>
+                                    <th>Tên sản phẩm </th>
                                     <th>Số lượng tồn kho</th>
                                     <th>Trạng thái</th>
                                     <th></th>
@@ -89,28 +89,16 @@
                               </thead>
                               <tbody id="stock-ingredient-table-body">
 
-                                 <?php if (empty($inventoryIngredients)) : ?>
+                                 <?php if (!isset($products) || empty($products)) : ?>
                                     <tr>
                                        <td colspan="6" class="text-center">Không có dữ liệu nào</td>
                                     </tr>
                                  <?php else : ?>
-
-                                    <?php foreach ($inventoryIngredients as $stockIngredient) : ?>
+                                    <?php foreach ($products as $product) : ?>
                                        <?php
-                                       switch ($stockIngredient['trangThai']) {
-                                          case 'Còn hàng':
-                                             $badgeColor = 'bg-success';
-                                             break;
-                                          case 'Hết hàng':
-                                             $badgeColor = 'bg-danger';
-                                             break;
-                                          case 'Sắp hết hàng':
-                                             $badgeColor = 'bg-warning';
-                                             break;
-                                          default:
-                                             $badgeColor = 'bg-secondary';
-                                             break;
-                                       }
+                                          $badgeColor = $product['tonKho'] > 0 ? 'bg-success' : 'bg-danger';
+                                          $trangThai = $product['tonKho'] > 0 ? 'Còn hàng' : 'Hết hàng';
+                                       
                                        ?>
                                        <tr>
                                           <td>
@@ -119,12 +107,12 @@
                                                 <label class="form-check-label" for="stockIngredient${stockIngredient.id}"></label>
                                              </div>
                                           </td>
-                                          <td> <?= $stockIngredient['storeName'] ?> </td>
-                                          <td> <?= $stockIngredient['tenNguyenLieu'] ?> </td>
-                                          <td> <?= $stockIngredient['soLuongTonKho'] ?> </td>
+                                          <td> <?= !is_null($product['tenCuaHang']) ? $product['tenCuaHang'] : 'Chưa cập nhật' ?> </td>
+                                          <td> <?= $product['tenSanPham'] ?> </td>
+                                          <td> <?= !is_null($product['tonKho']) ? $product['tonKho'] : 'Chưa cập nhật' ?> </td>
                                           <td>
                                              <span class="badge <?= $badgeColor ?>">
-                                                <?= $stockIngredient['trangThai'] ?>
+                                                <?= $trangThai ?>
                                              </span>
 
                                           </td>
@@ -135,8 +123,8 @@
                                              </a>
 
                                              <form action="/admin/inventory-products" class="d-inline-block ms-2 delete-form" method="POST">
-                                                <input type="hidden" name="idNguyenLieu" value="<?= $stockIngredient['idNguyenLieu'] ?>">
-                                                <input type="hidden" name="idCuaHang" value="<?= $stockIngredient['idCuaHang'] ?>">
+                                                <input type="hidden" name="idSanPham" value="<?= $product['idSanPham'] ?>">
+                                                <input type="hidden" name="idCuaHang" value="<?= $product['idCuaHang'] ?>">
                                                 <input type="hidden" name="_method" value="DELETE">
                                                 <button type="submit" class="btn btn-sm btn-danger mb-0">Delete</button>
                                              </form>

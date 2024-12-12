@@ -36,7 +36,8 @@ class CartController  extends Controller
          if (empty($cart)) {
             $cartDetail = [
                'count' => 0,
-               'cartDetail' => []
+               'cartDetail' => [],
+               'totalPrice' => 0
             ];
          } else {
             $idCart = $cart[0]['idGioHang'] ?? '';
@@ -47,27 +48,16 @@ class CartController  extends Controller
       } catch (Exception $th) {
          $this->session->set('error-modal', $th->getMessage());
       }
-      Response::view('client/cart', ['cartDetail' => $cartDetail]);
+      Response::view('client/cart', ['carts' => $cartDetail['cartDetail'], 'totalPrice' => $cartDetail['totalPrice']]);
    }
 
 
-   public function checkout()
-   {
-
-      Response::view('client/checkout');
-   }
-
-   private function validateStock($idProduct, $quantity)
+   private function validateStock($idProduct, $quantity, $idStore)
    {
       $stock = $this->db->select(
-         'SELECT ROW_NUMBER() OVER (ORDER BY soLuongTonKho DESC) as store_rank, soLuongTonKho, idCuaHang
-               FROM KhoSanPham WHERE idSanPham = ? AND soLuongTonKho > 0 AND isDeleted = FALSE',
-         [$idProduct]
+         'SELECT * From KhoSanPham WHERE idSanPham = ? AND idCuaHang = ?',
+         [$idProduct, $idStore]
       );
-
-      $stock = array_filter($stock, function ($item) {
-         return $item['store_rank'] === 1;
-      });
 
 
       if (empty($stock) || $stock[0]['soLuongTonKho'] < $quantity) {
@@ -82,7 +72,8 @@ class CartController  extends Controller
    {
       try {
          $idProduct = $_POST['idSanPham'] ?? '';
-         $quantity = $_POST['soLuong'] ?? 1;
+         $idStore = $_POST['idCuaHang'] ?? '';
+         $quantity = 1;
 
          if (!$this->db) throw new Exception("Kết nối database thất bại");
 
@@ -90,7 +81,7 @@ class CartController  extends Controller
          $this->db->beginTransaction();
 
          // Validate stock
-         $currentStock = $this->validateStock($idProduct, $quantity);
+         $currentStock = $this->validateStock($idProduct, $quantity, $idStore);
 
          $user = $this->session->get('user');
          $cart = $this->db->select('SELECT * FROM GioHang WHERE idNguoiDung = ?', [$user['id']]);
@@ -101,9 +92,10 @@ class CartController  extends Controller
          }
 
          $existingItem = $this->db->select(
-            'SELECT soLuong FROM ChiTietGioHang WHERE idGioHang = ? AND idSanPham = ?',
-            [$cart[0]['idGioHang'], $idProduct]
+            'SELECT soLuong FROM ChiTietGioHang WHERE idGioHang = ? AND idSanPham = ? AND idCuaHang = ?',
+            [$cart[0]['idGioHang'], $idProduct, $idStore]
          );
+      
 
          if (!empty($existingItem)) {
             $newQuantity = $existingItem[0]['soLuong'] + $quantity;
@@ -119,6 +111,7 @@ class CartController  extends Controller
             $this->db->insert('ChiTietGioHang', [
                'idGioHang' => $cart[0]['idGioHang'],
                'idSanPham' => $idProduct,
+               'idCuaHang' => $idStore,
                'soLuong' => $quantity
             ]);
          }
@@ -136,6 +129,7 @@ class CartController  extends Controller
       try {
          $idProduct = $_POST['idSanPham'] ?? '';
          $quantity = $_POST['soLuong'] ?? 0;
+         $idStore = $_POST['idCuaHang'] ?? '';
 
          if (!$this->db) throw new Exception("Kết nối database thất bại");
 
@@ -143,15 +137,16 @@ class CartController  extends Controller
 
          $this->db->beginTransaction();
 
+
          // Validate stock
-         $this->validateStock($idProduct, $quantity);
+         $this->validateStock($idProduct, $quantity, $idStore);
 
          $user = $this->session->get('user');
          $cart = $this->db->select('SELECT * FROM GioHang WHERE idNguoiDung = ?', [$user['id']]);
 
          if (empty($cart)) {
             throw new Exception("Không tìm thấy giỏ hàng");
-         }
+         }  
 
          if ($quantity <= 0) {
             $this->db->query(
@@ -187,7 +182,8 @@ class CartController  extends Controller
                'success' => true,
                'data' => [
                   'count' => 0,
-                  'cartDetail' => []
+                  'cartDetail' => [],
+                  'totalPrice' => 0
                ]
             ]);
          }
@@ -204,7 +200,8 @@ class CartController  extends Controller
                'success' => true,
                'data' => [
                   'count' => 0,
-                  'cartDetail' => []
+                  'cartDetail' => [],
+                  'totalPrice' => 0
                ]
             ]);
          }
@@ -212,6 +209,9 @@ class CartController  extends Controller
          $idCart = $cart[0]['idGioHang'] ?? '';
 
          $cartDetail = $this->cartService->getCartDetail($idCart);
+
+         
+
          Response::json([
             'success' => true,
             'data' => $cartDetail

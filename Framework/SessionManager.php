@@ -11,6 +11,7 @@ class SessionManager
    private function __construct()
    {
       session_start();
+      session_regenerate_id(true);
       $this->sessionId = session_id();
    }
 

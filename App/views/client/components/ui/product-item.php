@@ -1,6 +1,6 @@
 <div class="col">
-   <div class="card card-product">
-      <div class="card-body">
+   <div class="card card-product h-100">
+      <div class="card-body h-100">
          <div class="text-center position-relative">
             <div class="position-absolute top-0 start-0">
                <!-- <span class="badge bg-danger">Sale</span> -->
@@ -22,16 +22,9 @@
          </div>
          <h2 class="fs-6"><a href="./pages/shop-single.html" class="text-inherit text-decoration-none"> <?= $food['tenSanPham'] ?></a></h2>
          <div>
-            <small class="text-warning">
-               <i class="bi bi-star-fill"></i>
-               <i class="bi bi-star-fill"></i>
-               <i class="bi bi-star-fill"></i>
-               <i class="bi bi-star-fill"></i>
-               <i class="bi bi-star-half"></i>
-            </small>
-            <span class="text-muted small">4.5(149)</span>
+            <span class="text-muted small" ><?= isset($food['tenCuaHang']) ? $food['tenCuaHang'] : 'Hết hàng trong tất cả cửa hàng' ?></span>
          </div>
-         <div class="d-flex justify-content-between align-items-center mt-3">
+         <div class="d-flex justify-content-between align-items-center mt-3" >
             <div>
                <span class="text-dark"><?= number_format($food['gia'], 0, ',', '.') ?>đ</span>
             </div>
@@ -40,7 +33,7 @@
                <?php if ($food['tonKho'] <= 0) : ?>
                   <span class="text-danger">Hết hàng</span>
                <?php else : ?>
-                  <button type="button" class="btn btn-primary btn-sm" data-uuid="<?= $food['idSanPham'] ?>" >
+                  <button type="button" class="btn btn-primary btn-sm" data-uuid="<?= $food['idSanPham'] ?>" data-uuid-store="<?= $food['idCuaHang'] ?>">
                      <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"

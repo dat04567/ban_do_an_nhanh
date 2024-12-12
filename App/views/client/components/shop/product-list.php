@@ -74,40 +74,6 @@
          loadComponents("modal/product-detail-modal", "client");
 
          
-         $product = [
-            'index' => 'id1',
-            'title' => 'Bánh Snack Khoai tây',
-            'rating' => 4.5,
-            'numReviews' => 149,
-            'originalPrice' => 18000,
-            'imageUrl' => 'https://www.claudeusercontent.com/api/placeholder/220/220',
-            'category' => 'Đồ ăn vặt'
-         ];
-
-         echo renderProductItem($product);
-
-
-         $data = [
-            'id' => 'id1',
-            'images' => [
-               'https://www.claudeusercontent.com/api/placeholder/220/220',
-               'https://www.claudeusercontent.com/api/placeholder/220/220',
-               'https://www.claudeusercontent.com/api/placeholder/220/220'
-            ],
-            'category' => 'Electronics',
-            'title' => 'Sample Product',
-            'rating' => 4.5,
-            'reviews' => 120,
-            'price' => 299.99,
-            'originalPrice' => 399.99,
-            'discount' => 25,
-            'sizes' => ['S', 'M', 'L', 'XL'],
-            'status' => 'In Stock',
-            'type' => 'Gadget',
-            'delivery' => '2-3 business days'
-         ];
-
-         renderProductModal($data);
 
 
 

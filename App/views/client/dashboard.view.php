@@ -67,7 +67,7 @@
 <?= loadPartial("script-modal-alert") ?>
 <script src="/assets/libs/toastr/toastr.min.js"></script>
 
-<script src="/assets/js/client/add-to-cart.js"></script>
+<script type="module" src="/assets/js/client/pages/dashboard.js"></script>
 
 
 <!-- Theme JS -->

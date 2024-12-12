@@ -26,11 +26,34 @@ class  InventoryProductController extends Controller
          if (!$this->db) {
             throw new \Exception('Không thể kết nối dữ liệu');
          }
+         $products = $this->db->select("SELECT 
+                                             SP.idSanPham,
+                                             SP.tenSanPham AS tenSanPham, 
+                                             KSP.soLuongTonKho AS tonKho,
+                                             KSP.idCuaHang as idCuaHang,
+                                             CH.storeName as tenCuaHang,
+                                             CH.idCuaHang as idCuaHang,
+                                             KSP.isDeleted as isDeleted
+                                             FROM 
+                                                SanPham SP
+                                             LEFT JOIN 
+                                                KhoSanPham KSP ON SP.idSanPham = KSP.idSanPham
+                                             LEFT JOIN 
+                                                CuaHang CH ON KSP.idCuaHang = CH.idCuaHang   
+                                             WHERE 
+                                                SP.isDeleted = FALSE
+                                             "
+                                             ,[]);
+
+         
       } catch (\Exception $e) {
          $this->session->set('Error', $e->getMessage());
       }
 
-      Response::view('admin/manage-inventory-product');
+
+   
+
+      Response::view('admin/manage-inventory-product', ['products' => $products]);
    }
 
    public function create()
@@ -50,6 +73,8 @@ class  InventoryProductController extends Controller
             'stores' => $stores,
             'products' => $products
          ];
+
+
       } catch (\Exception $th) {
          $this->session->set('error-modal', $th->getMessage());
       }
@@ -90,6 +115,10 @@ class  InventoryProductController extends Controller
 
          $stockProduct->save();
 
+         $this->db->clearSingleCache('KhoSanPham');
+
+
+
 
 
 
@@ -106,7 +135,6 @@ class  InventoryProductController extends Controller
                'idCuaHang' => $idCuaHang,
                'soLuongTonKho' => $soLuongTonKho
             ]);
-
          } else {
             $this->session->set('error-modal', $e->getMessage());
          }
@@ -141,7 +169,7 @@ class  InventoryProductController extends Controller
 
             $rowCountDeleted = $stmt->rowCount();
 
-            if ($rowCountDeleted == 0) {
+            if ($rowCountDeleted === 0) {
                throw new \Exception('Không thể xóa kho nguyên liệu');
             }
 

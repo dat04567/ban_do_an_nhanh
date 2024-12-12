@@ -1,8 +1,9 @@
 <?php
 
 
-namespace Framework\middleware;
+namespace App\middleware;
 
+use Framework\MiddlewareInterface;
 use Framework\SessionManager;
 
 class AuthMiddleware implements MiddlewareInterface

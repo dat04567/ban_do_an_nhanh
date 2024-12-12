@@ -17,7 +17,7 @@ class CartService
    public function getCartDetail(string $idCart): array
    {
       try {
-         $query = '
+         $query = "
                   SELECT 
                   SP.tenSanPham,
                   CTGH.soLuong,
@@ -55,16 +55,19 @@ class CartService
                      SP.price, 
                      KSP.soLuongTonKho,
                      KSP.idCuaHang
-            ';
+            ";
 
          $cartDetail = $this->db->select($query, [$idCart]);
+         
 
          if (empty($cartDetail)) {
             return [
                'count' => 0,
-               'cartDetail' => []
+               'cartDetail' => [],
+               'totalPrice' => 0
             ];
          }
+
 
          return [
             'count' => $cartDetail[0]['totalCount'],
@@ -73,7 +76,8 @@ class CartService
                $item['hinhAnh'] = explode(',', $item['hinhAnh']);
                unset($item['totalCount']);
                return $item;
-            }, $cartDetail)
+            }, $cartDetail),
+            'totalPrice' => array_sum(array_column($cartDetail, 'totalPrice'))
          ];
       } catch (Exception $th) {
          // Consider logging the exception

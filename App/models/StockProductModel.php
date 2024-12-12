@@ -82,7 +82,7 @@ class StockProductModel  extends BaseModel
                $db->query('UPDATE KhoSanPham SET soLuongTonKho = ?, isDeleted = false WHERE idSanPham = ? AND idCuaHang = ?', [$this->soLuongTonKho, $this->idSanPham, $this->idCuaHang]);
             } else {
 
-               $db->query('UPDATE KhoSanPham SET soLuongTonKho = ? WHERE idSanPham = ? AND idCuaHang = ?', [$this->soLuongTonKho, $this->idSanPham, $this->idCuaHang]);
+               $db->query('UPDATE KhoSanPham SET soLuongTonKho = soLuongTonKho + ? WHERE idSanPham = ? AND idCuaHang = ?', [$this->soLuongTonKho, $this->idSanPham, $this->idCuaHang]);
             }
          }
 

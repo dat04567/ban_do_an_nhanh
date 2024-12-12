@@ -211,8 +211,14 @@ CREATE TABLE HoaDon (
 	deletedAt TIMESTAMP NULL,
     trangThaiHoaDon ENUM('Pending', 'Processing', 'Completed', 'Cancelled') DEFAULT 'Pending',
     idNguoidung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-    idPhuongThuc  CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     FOREIGN KEY (idNguoidung) REFERENCES NguoiDung(id)
+);
+
+CREATE TABLE PhuongThucThanhToan (
+    idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    tenPhuongThuc VARCHAR(100) NOT NULL,
+    idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
 );
 
 CREATE TABLE DiaChiGiaoHang(
@@ -222,19 +228,19 @@ CREATE TABLE DiaChiGiaoHang(
 	diaChi2 VARCHAR(50),
 	thanhPho VARCHAR(50),
 	zipCode VARCHAR(50),
-	idKH CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-	idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	macDinh BOOLEAN DEFAULT false,
+    soDienThoai VARCHAR(50),
+    congTy VARCHAR(50),
+    isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL,
+	idNguoidung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
 	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon),
-	FOREIGN KEY (idKH) REFERENCES KhachHang(idKH)
+	FOREIGN KEY (idNguoidung) REFERENCES NguoiDung(id)
 );
 
 
-CREATE TABLE PhuongThucThanhToan(
-	idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
- 	tenPhuongThuc VARCHAR(100) NOT NULL,
- 	idHoaDon  CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()),
-	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
-);
+
 
 
 

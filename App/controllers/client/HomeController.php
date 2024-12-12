@@ -75,10 +75,9 @@ class HomeController  extends Controller
             return $food;
          }, $foods);
 
-         // inspectAndDie($foods);
 
 
-         $data = [
+         $data = [   
             'categories' => $categories,
             'foods' => $foods
          ];

@@ -4,8 +4,7 @@ namespace Framework;
 
 use App\Controllers\ErrorController;
 use Exception;
-use Framework\middleware\AuthMiddleware;
-use Framework\middleware\MiddlewareInterface;
+use Framework\MiddlewareInterface;
 
 class Router
 {
@@ -156,11 +155,11 @@ class Router
 
     // If middleware is a string, convert it to an instance
     if (is_string($middleware)) {
-      $middlewareClass = "Framework\\middleware\\{$middleware}";
+      $middlewareClass = "App\\middleware\\{$middleware}";
       $middleware = new $middlewareClass();
     }
 
-    if (!$middleware instanceof MiddlewareInterface) {
+    if (!$middleware instanceof  MiddlewareInterface) {
       throw new \RuntimeException("Middleware must implement MiddlewareInterface");
     }
 
