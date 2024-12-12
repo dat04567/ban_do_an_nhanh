@@ -110,6 +110,7 @@ class UserController  extends Controller
 
    public function logout()
    {
+      $this->session->regenerate();
       $this->session->destroy();
       Response::redirect('/');
    }

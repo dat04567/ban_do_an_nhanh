@@ -10,8 +10,9 @@ class SessionManager
 
    private function __construct()
    {
-      session_start();
-      session_regenerate_id(true);
+      if (session_status() == PHP_SESSION_NONE) {
+         session_start();
+      }
       $this->sessionId = session_id();
    }
 
