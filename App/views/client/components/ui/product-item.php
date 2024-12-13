@@ -8,7 +8,11 @@
             <a href="#!"><img src="<?= $food['hinhAnh'][0] ?>" alt="product" class="img-fluid" /></a>
 
             <div class="card-product-action">
-               <a href="#!" class="btn-action" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+               <a href="#!" 
+                  class="btn-action" 
+                  data-bs-toggle="modal" 
+                  data-bs-target="#quickViewModal" 
+                  data-uuid="<?= $food['idSanPham'] ?>"   >
                   <i class="bi bi-eye" data-bs-toggle="tooltip" data-bs-html="true" title="Quick View"></i>
                </a>
                <a href="#!" class="btn-action" data-bs-toggle="tooltip" data-bs-html="true" title="Wishlist"><i class="bi bi-heart"></i></a>

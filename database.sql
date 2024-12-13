@@ -211,6 +211,10 @@ CREATE TABLE HoaDon (
 	deletedAt TIMESTAMP NULL,
     trangThaiHoaDon ENUM('Pending', 'Processing', 'Completed', 'Cancelled') DEFAULT 'Pending',
     idNguoidung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idDiaChi CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    FOREIGN KEY (idDiaChi) REFERENCES DiaChiGiaoHang(idDiaChi),
+    FOREIGN KEY (idPhuongThuc) REFERENCES PhuongThucThanhToan(idPhuongThuc),
     FOREIGN KEY (idNguoidung) REFERENCES NguoiDung(id)
 );
 
@@ -224,15 +228,7 @@ CREATE TABLE PhuongThucThanhToan (
 INSERT INTO PhuongThucThanhToan (tenPhuongThuc) VALUES ('COD');
 INSERT INTO PhuongThucThanhToan (tenPhuongThuc) VALUES ('MOMO');
 
-CREATE TABLE PhuongThucHoaDon(
-    idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-    idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-	isDeleted BOOLEAN DEFAULT false,
-	deletedAt TIMESTAMP NULL,
-    PRIMARY KEY (idPhuongThuc, idHoaDon),
-    FOREIGN KEY (idPhuongThuc) REFERENCES PhuongThucThanhToan(idPhuongThuc),
-    FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
-);
+
 
 CREATE TABLE DiaChiGiaoHang(
 	idDiaChi CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
@@ -248,14 +244,6 @@ CREATE TABLE DiaChiGiaoHang(
 	deletedAt TIMESTAMP NULL,
 	idNguoidung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
 	FOREIGN KEY (idNguoidung) REFERENCES NguoiDung(id)
-);
-
-CREATE TABLE DiaChiHoaDon(
-    idDiaChi CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-    idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-    PRIMARY KEY (idDiaChi, idHoaDon),
-    FOREIGN KEY (idDiaChi) REFERENCES DiaChiGiaoHang(idDiaChi),
-    FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
 );
 
 

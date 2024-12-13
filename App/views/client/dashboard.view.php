@@ -39,6 +39,7 @@
   <!-- sản phẩm nổi bật -->
   <?php if (isset($foods)) : ?>
     <?= loadComponents("dashboard/popular-products", "client", ['foods' => $foods]) ?>
+    <?= loadComponents("modal/product-detail-modal", "client", ['foods' => $foods]) ?>
   <?php endif; ?>
 
   <!-- Sản phẩm best sell -->
@@ -68,6 +69,7 @@
 <script src="/assets/libs/toastr/toastr.min.js"></script>
 
 <script type="module" src="/assets/js/client/pages/dashboard.js"></script>
+<script src="/assets/js/client/product-detail-modal.js"></script>
 
 
 <!-- Theme JS -->

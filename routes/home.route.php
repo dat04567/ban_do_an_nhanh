@@ -20,7 +20,7 @@ $router->post('/order/create', 'client::OrderController@store', ['AuthMiddleware
 
 $router->get('/shop', 'client::ShopController@index');
 
-
+$router->get('/products/{id}', 'client::ProductController@getPrductDetail');
 
 
 $router->get('/orders', 'client::OrderController@index', ['AuthMiddleware']);

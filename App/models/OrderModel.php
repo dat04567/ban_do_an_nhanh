@@ -97,7 +97,9 @@ class OrderModel extends BaseModel
             'idHoaDon' => $orderId,
             'tongTien' => $totalAmount,
             'trangThaiHoaDon' => 'Pending',
-            'idNguoidung' => $this->idNguoiDung
+            'idNguoidung' => $this->idNguoiDung,
+            'idDiaChi' => $this->addressId,
+            'idPhuongThuc' => $this->paymentMethod
          ]);
 
 
@@ -149,20 +151,6 @@ class OrderModel extends BaseModel
                'idCuaHang' => $storeOrder['idCuaHang']
             ]);
          }
-
-
-
-         // // 7. Add payment method
-         $db->insert('PhuongThucHoaDon', [
-            'idPhuongThuc' => $this->paymentMethod,
-            'idHoaDon' => $orderId
-         ]);
-
-         // // 8. insert shipping address 
-         $db->insert('DiaChiHoaDon', [
-            'idHoaDon' => $orderId,
-            'idDiaChi' => $this->addressId,
-         ]);
 
 
          // After creating the order, create the payment record

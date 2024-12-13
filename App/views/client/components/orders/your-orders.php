@@ -57,7 +57,7 @@
                            ?>
                            <span class="badge <?= $badgeClass; ?>"><?= $order['trangThai']; ?></span>
                         </td>
-                        <td class="align-middle border-top-0">$<?= number_format($order['tongTien'], 2); ?></td>
+                        <td class="align-middle border-top-0"><?= number_format($order['tongTien'], 0, ',', '.') . ' đ'; ?></td>
                         <td class="text-muted align-middle border-top-0">
                            <a href="#" class="text-inherit" data-bs-toggle="tooltip" data-bs-placement="top" title="View"><i class="feather-icon icon-eye"></i></a>
                         </td>
