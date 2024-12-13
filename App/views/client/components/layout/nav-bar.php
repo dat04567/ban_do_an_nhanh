@@ -183,7 +183,7 @@ $arrayPath = [
                                  <a class="dropdown-item" href="/account">Tài khoản</a>
                               </li>
                               <li>
-                                 <a class="dropdown-item" href="/order">Đơn hàng</a>
+                                 <a class="dropdown-item" href="/orders">Đơn hàng</a>
                               </li>
                               <li>
                                  <a class="dropdown-item" href="/address">Địa chỉ</a>

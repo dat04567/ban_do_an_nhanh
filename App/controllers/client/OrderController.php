@@ -32,10 +32,42 @@ class OrderController extends Controller
             throw new Exception("Kết nối database thất bại");
          }
 
-        
+
+         $user = $this->session->get('user');
+
+         $idUser = $user['id'] ?? '';
 
 
-         Response::view('client/order');
+
+
+         $orders = $this->db->select(' SELECT 
+                                             sp.tenSanPham AS sanPham, 
+                                             hd.idHoaDon AS maDonHang, 
+                                             hd.ngayTaoHoaDon AS ngayDat, 
+                                             cthd.soLuong AS soLuong, 
+                                             hd.trangThaiHoaDon AS trangThai, 
+                                             hd.tongTien AS tongTien,
+                                             (
+                                                SELECT JSON_ARRAYAGG(ha.duongDan)
+                                                FROM HinhAnh ha
+                                                WHERE ha.idSanPham = sp.idSanPham AND ha.isDeleted = FALSE
+                                             ) AS hinhAnh
+                                             FROM 
+                                                HoaDon hd 
+                                             JOIN 
+                                                ChiTietHoaDon cthd ON hd.idHoaDon = cthd.idHoaDon 
+                                             JOIN 
+                                                SanPham sp ON cthd.idSanPham = sp.idSanPham 
+                                             WHERE 
+                                                hd.idNguoidung = ? 
+                                             ORDER BY 
+                                                hd.ngayTaoHoaDon DESC', [$idUser]);
+         $orders = array_map(function ($order) {
+            $order['hinhAnh'] = json_decode($order['hinhAnh']);
+            return $order;
+         }, $orders);
+
+         Response::view('client/order', ['orders' => $orders]);
       } catch (Exception $th) {
          $this->session->set('error-modal', $th->getMessage());
       }

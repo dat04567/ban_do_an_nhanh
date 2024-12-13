@@ -124,6 +124,7 @@ DELIMITER
 
 
 
+
 DELIMITER //
 
 CREATE PROCEDURE XoaNguyenLieu(IN p_idNguyenLieu CHAR(36))
@@ -359,8 +360,7 @@ BEGIN
     SELECT 'Xóa nhân viên thành công' as message;
 END //
 
-DELIMITER ;
-
+DELIMITER 
 
 
 DELIMITER //
@@ -415,7 +415,7 @@ BEGIN
     SELECT 'Xóa danh mục thành công' as message;
     
 END //
-DELIMITER ;
+DELIMITER 
 
 
 

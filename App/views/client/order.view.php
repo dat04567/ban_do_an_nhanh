@@ -103,7 +103,7 @@
                </div>
             </div>
 
-            <?= loadComponents('orders/your-orders', 'client') ?>
+            <?= loadComponents('orders/your-orders', 'client', ['orders' => $orders ?? []]) ?>
          
          </div>
       </div>
