@@ -168,6 +168,7 @@ class FoodModel extends BaseModel
 
          // Handle hinhAnh
          foreach ($this->hinhAnh as $image) {
+
             $db->insert('HinhAnh', [
                'idSanPham' => $this->idSanPham,
                'duongDan' => $image['path'],

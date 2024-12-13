@@ -6,6 +6,7 @@ use App\Controllers\Controller;
 use App\Services\CartService;
 use Exception;
 use Framework\Response;
+use Framework\SecurityFilter;
 
 class CheckoutController extends Controller
 {
@@ -38,12 +39,19 @@ class CheckoutController extends Controller
 
          $addresses = $this->db->select('SELECT * FROM DiaChiGiaoHang WHERE idNguoiDung = ? AND isDeleted = 0', [$idUser]);
 
+         $paymentMethods = $this->db->select('SELECT * FROM PhuongThucThanhToan WHERE isDeleted = 0');
+
+
+          $paymentMethods = array_column($paymentMethods, 'idPhuongThuc', 'tenPhuongThuc');
+
 
 
          Response::view('client/checkout', [
             'carts' => $cartDetail['cartDetail'],
             'totalPrice' => $cartDetail['totalPrice'],
-            'addresses' => $addresses
+            'addresses' => $addresses,
+            'paymentMethods' => $paymentMethods
+
          ]);
       } catch (Exception $th) {
          $this->session->set('error-modal', $th->getMessage());
@@ -53,42 +61,21 @@ class CheckoutController extends Controller
       
    }
 
-   public function processCheckout()
-   {
-      try {
-         if (!$this->db) {
-            throw new Exception("Kết nối database thất bại");
-         }
 
-         $this->db->beginTransaction();
+   
 
-         // Validate đầu vào
-         $address = $_POST['address'] ?? '';
-         $phone = $_POST['phone'] ?? '';
-         $paymentMethod = $_POST['paymentMethod'] ?? '';
 
-         if (!$address || !$phone || !$paymentMethod) {
-            throw new Exception("Vui lòng điền đầy đủ thông tin");
-         }
-
-         // Xử lý đặt hàng và thanh toán
-         // TODO: Implement order processing logic here
-
-         $this->db->commit();
-         $this->session->set('success-modal', 'Đặt hàng thành công');
-         Response::redirect('/orders');
-      } catch (Exception $th) {
-         $this->db->rollBack();
-         $this->session->set('error-modal', $th->getMessage());
-         Response::redirect('/checkout');
-      }
+   public function show() {
+      
    }
 
+   public function store() {
+      $json = file_get_contents('php://input');
+      $data  = SecurityFilter::cleanJson($json);
 
-
-   public function show() {}
-
-   public function store() {}
+      inspectAndDie($data);
+      
+   }
 
    public function update() {}
 

@@ -74,50 +74,53 @@
                                  </tr>
                               </thead>
                               <tbody>
-                                 <tr>
-                                    <td>
-                                       <div class="form-check">
-                                          <input class="form-check-input" type="checkbox" value="" id="orderOne" />
-                                          <label class="form-check-label" for="orderOne"></label>
-                                       </div>
-                                    </td>
-                                    <td>
-                                       <a href="#!"><img src="../assets/images/products/product-img-1.jpg" alt="" class="icon-shape icon-md" /></a>
-                                    </td>
-                                    <td><a href="#" class="text-reset">FC#1007</a></td>
-                                    <td>Hồ Tấn Đạt</td>
-
-                                    <td>01 May 2023 (10:12 am)</td>
-                                    <td>Paypal</td>
-
-                                    <td>
-                                       <span class="badge bg-light-primary text-dark-primary">Success</span>
-                                    </td>
-                                    <td>$12.99</td>
-
-                                    <td>
-                                       <div class="dropdown">
-                                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                                             <i class="feather-icon icon-more-vertical fs-5"></i>
-                                          </a>
-                                          <ul class="dropdown-menu">
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-trash me-3"></i>
-                                                   Delete
+                                 <?php if (isset($orders) && count($orders) > 0) : ?>
+                                    <?php foreach ($orders as $order) : ?>
+                                       <tr>
+                                          <td>
+                                             <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="<?= $order['maDonHang'] ?>" id="order<?= $order['maDonHang'] ?>" />
+                                                <label class="form-check-label" for="order<?= $order['maDonHang'] ?>"></label>
+                                             </div>
+                                          </td>
+                                          <td>
+                                             <a href="#!"><img src="<?= $order['hinhAnh'][0] ?>" alt="" class="icon-shape icon-md" /></a>
+                                          </td>
+                                          <td><a href="#" class="text-reset"><?= $order['tenSanPham'] ?></a></td>
+                                          <td><?= $order['hoKhachHang'] . ' ' . $order['tenKhachHang'] ?></td>
+                                          <td><?= date('d M Y (h:i a)', strtotime($order['ngayGio'])) ?></td>
+                                          <td><?= $order['phuongThucThanhToan'] ?></td>
+                                          <td>
+                                             <span class="badge bg-light-primary text-dark-primary"><?= $order['trangThai'] ?></span>
+                                          </td>
+                                          <td>$<?= number_format($order['soTien'], 2) ?></td>
+                                          <td>
+                                             <div class="dropdown">
+                                                <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                                   <i class="feather-icon icon-more-vertical fs-5"></i>
                                                 </a>
-                                             </li>
-                                             <li>
-                                                <a class="dropdown-item" href="#">
-                                                   <i class="bi bi-pencil-square me-3"></i>
-                                                   Edit
-                                                </a>
-                                             </li>
-                                          </ul>
-                                       </div>
-                                    </td>
-                                 </tr>
-                               
+                                                <ul class="dropdown-menu">
+                                                   <li>
+                                                      <a class="dropdown-item" href="#">
+                                                         <i class="bi bi-trash me-3"></i>Delete
+                                                      </a>
+                                                   </li>
+                                                   <li>
+                                                      <a class="dropdown-item" href="#">
+                                                         <i class="bi bi-pencil-square me-3"></i>Edit
+                                                      </a>
+                                                   </li>
+                                                </ul>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    <?php endforeach; ?>
+                                 <?php else : ?>
+                                    <tr>
+                                       <td colspan="8" class="text-center">Không có dữ liệu</td>
+                                    </tr>
+                                 <?php endif; ?>
+
                               </tbody>
                            </table>
                         </div>

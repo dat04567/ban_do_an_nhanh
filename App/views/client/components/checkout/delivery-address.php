@@ -8,7 +8,7 @@
                     <!-- form -->
                     <div class="card card-body p-6 h-100">
                       <div class="form-check mb-4">
-                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio" <?= $address['macDinh'] ? 'checked' : ''; ?> data-id-dia-chi="<?= $address['idDiaChi']; ?>">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="homeRadio<?= $address['idDiaChi']; ?>" <?= $address['macDinh'] ? 'checked' : ''; ?> ">
                         <label class="form-check-label text-dark" for="homeRadio<?= $address['idDiaChi']; ?>">Nhà</label>
                       </div>
                       <!-- address -->

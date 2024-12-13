@@ -330,16 +330,17 @@ class FoodController  extends Controller
    {
 
 
-      $uploadDir = basePath('/public/assets/images/products');
+      $uploadDir = basePath('public/assets/images/products');
       try {
          if (!$this->db) {
             throw new Exception('Không thể kết nối dữ liệu');
          }
 
+
          $imageProcess = new ImageProcessor($uploadDir);
          $imagePath = $imageProcess->uploadImage($_FILES['file'], true);
          $imageSize = filesize($imagePath);
-         $imagePath = str_replace(basePath('/public'), '', $imagePath);
+         $imagePath = str_replace(basePath('public'), '', $imagePath);
 
          $fileName  = basename($imagePath);
 

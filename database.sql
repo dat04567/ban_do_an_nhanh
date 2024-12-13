@@ -217,7 +217,20 @@ CREATE TABLE HoaDon (
 CREATE TABLE PhuongThucThanhToan (
     idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
     tenPhuongThuc VARCHAR(100) NOT NULL,
+	isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL
+);
+
+INSERT INTO PhuongThucThanhToan (tenPhuongThuc) VALUES ('COD');
+INSERT INTO PhuongThucThanhToan (tenPhuongThuc) VALUES ('MOMO');
+
+CREATE TABLE PhuongThucHoaDon(
+    idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
     idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+	isDeleted BOOLEAN DEFAULT false,
+	deletedAt TIMESTAMP NULL,
+    PRIMARY KEY (idPhuongThuc, idHoaDon),
+    FOREIGN KEY (idPhuongThuc) REFERENCES PhuongThucThanhToan(idPhuongThuc),
     FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
 );
 
@@ -234,9 +247,15 @@ CREATE TABLE DiaChiGiaoHang(
     isDeleted BOOLEAN DEFAULT false,
 	deletedAt TIMESTAMP NULL,
 	idNguoidung CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-	idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL,
-	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon),
 	FOREIGN KEY (idNguoidung) REFERENCES NguoiDung(id)
+);
+
+CREATE TABLE DiaChiHoaDon(
+    idDiaChi CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    PRIMARY KEY (idDiaChi, idHoaDon),
+    FOREIGN KEY (idDiaChi) REFERENCES DiaChiGiaoHang(idDiaChi),
+    FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
 );
 
 
@@ -246,7 +265,6 @@ CREATE TABLE DiaChiGiaoHang(
 
 CREATE TABLE ChiTietHoaDon(
 	soLuong INT DEFAULT 1,
-	giaBan DECIMAL(20, 2),
 	giaVon DECIMAL(20, 2),
 	idSanPham CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
 	idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
@@ -256,7 +274,6 @@ CREATE TABLE ChiTietHoaDon(
 	FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon),
 	FOREIGN KEY (idSanPham) REFERENCES SanPham(idSanPham)
 );
-
 
 
 CREATE TABLE HoaDonCuaHang (
@@ -314,5 +331,22 @@ CREATE TABLE LichLamViec(
     FOREIGN KEY (idNhanVien) REFERENCES NhanVien(idNhanVien),
     FOREIGN KEY (idCaLamViec) REFERENCES CaLamViec(idCaLamViec)
 );
+
+CREATE TABLE Payment (
+    idPayment CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT (UUID()) PRIMARY KEY,
+    idHoaDon CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    tongTienThanhToan DECIMAL(20, 2) NOT NULL,
+    trangThai ENUM('Pending', 'Processing', 'Completed', 'Failed', 'Refunded') DEFAULT 'Pending',
+    transactionCode VARCHAR(100),
+    idPhuongThuc CHAR(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+    ngayThanhToan TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    notes TEXT,
+    isDeleted BOOLEAN DEFAULT false,
+    deletedAt TIMESTAMP NULL,
+    FOREIGN KEY (idPhuongThuc) REFERENCES PhuongThucThanhToan(idPhuongThuc),
+    FOREIGN KEY (idHoaDon) REFERENCES HoaDon(idHoaDon)
+);
+
+
 
 

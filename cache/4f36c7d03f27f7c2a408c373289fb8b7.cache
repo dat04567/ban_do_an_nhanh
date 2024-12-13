@@ -1,1 +1,0 @@
-a:2:{s:7:"expires";i:1733847280;s:5:"value";a:2:{s:4:"data";a:2:{i:0;a:2:{s:12:"idNguyenLieu";s:36:"78fa9784-a2ff-11ef-9429-5f9befd974b8";s:13:"tenNguyenLieu";s:9:"Đường";}i:1;a:2:{s:12:"idNguyenLieu";s:36:"e5f796f6-a26f-11ef-9429-5f9befd974b8";s:13:"tenNguyenLieu";s:10:"Thịt heo";}}s:3:"sql";s:75:"SELECT  idNguyenLieu, tenNguyenLieu FROM NguyenLieu WHERE isDeleted = false";}}

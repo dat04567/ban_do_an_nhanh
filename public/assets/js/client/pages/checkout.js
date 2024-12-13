@@ -138,5 +138,85 @@ $(function () {
       $('.invalid-feedback').remove();
       $('.is-invalid').removeClass('is-invalid');
    });
+
+   const orderForm = $('#orderForm');
+   const orderSubmitBtn = $('#orderSubmitBtn');
+
+   let orderProcessing = false;
+
+
+   orderForm.on('submit', async function (e) {
+      e.preventDefault();
+
+      if (orderProcessing) return;
+
+      try {
+         orderProcessing = true;
+         orderSubmitBtn
+            .prop('disabled', true)
+            .html('<span class="spinner-border spinner-border-sm" role="status"></span> Đang xử lý...');
+
+         const addressId = $('input[name="flexRadioDefault"]:checked').attr('id')?.replace('homeRadio', '') ?? '';
+         const paymentMethod = $('input[name="phuongThuc"]:checked').data('uuid');
+         const orderData = {
+            addressId: addressId,
+            paymentMethod: paymentMethod
+         };
+
+
+
+         const response = await $.ajax({
+            url: '/order/create',
+            method: 'POST',
+            data: JSON.stringify(orderData),
+            contentType: 'application/json',
+            dataType: 'json'
+         });
+
+         if (response.success) {
+            toastr.success('Đặt hàng thành công!');
+
+            // If payment method is Momo, redirect to payment gateway
+            if (orderData.paymentMethod === 'momo' && response.paymentUrl) {
+               window.location.href = response.paymentUrl;
+               return;
+            }
+
+            orderProcessing = false;
+            orderSubmitBtn.prop('disabled', false).text('Đặt hàng');
+
+            // Redirect to order detail page
+            window.location.href = '/orders';
+
+         } else {
+
+            throw new Error(response.message || 'Có lỗi xảy ra khi đặt hàng');
+         }
+
+
+      } catch (error) {
+
+         if (error.responseJSON && error.responseJSON.message) {
+
+            const errorMessages = Object.values(error.responseJSON.message)[0];
+
+
+            errorMessages.forEach(message => {
+               toastr.error(message);
+            });
+
+
+
+         } else {
+            toastr.error(error.message || 'Có lỗi xảy ra. Vui lòng thử lại.');
+         }
+      } finally {
+         orderProcessing = false;
+         orderSubmitBtn.prop('disabled', false).text('Đặt hàng');
+      }
+   });
+
+
+
 });
 

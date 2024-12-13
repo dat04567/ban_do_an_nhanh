@@ -68,7 +68,7 @@ class HomeController  extends Controller
                                              SP.idSanPham, SP.tenSanPham, SP.price, KSP.soLuongTonKho, KSP.idCuaHang, CH.storeName
                                           ORDER BY
                                              SP.createAt DESC
-                                          LIMIT 10", [], 1000);
+                                          LIMIT 10", []);
 
          $foods = array_map(function ($food) {
             $food['hinhAnh'] = explode(';', $food['hinhAnh']);

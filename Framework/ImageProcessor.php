@@ -18,6 +18,8 @@ class ImageProcessor
    public function __construct(string $uploadDir, int $maxFileSize = 5242880)
    {
       // Ensure upload directory exists and is writable
+
+
       if (!is_dir($uploadDir) || !is_writable($uploadDir)) {
          throw new \Exception("Upload directory does not exist or is not writable.");
       }

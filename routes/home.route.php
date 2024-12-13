@@ -16,9 +16,14 @@ $router->post('/address/add', 'client::AddressController@store');
 $router->get('/address/list', 'client::AddressController@getShippingAddress', ['AuthMiddleware']);
 
 
+$router->post('/order/create', 'client::OrderController@store', ['AuthMiddleware', 'CheckoutMiddleware']);
 
-$router->get('home/{id}', 'HomeController@showId');
 $router->get('/shop', 'client::ShopController@index');
+
+
+
+
+$router->get('/orders', 'client::OrderController@index', ['AuthMiddleware']);
 
 
 

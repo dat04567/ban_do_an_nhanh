@@ -58,7 +58,7 @@
          </div>
          <div>
             <!-- row -->
-            <div class="row">
+            <form class="row" id="orderForm" >
                <div class="col-xl-7 col-lg-6 col-md-12">
                   <!-- accordion -->
                   <div class="accordion accordion-flush" id="accordionFlushExample">
@@ -103,7 +103,7 @@
                                        <div class="d-flex">
                                           <div class="form-check">
                                              <!-- checkbox -->
-                                             <input class="form-check-input" type="radio" name="phuongThuc" id="paypal" value="momo" />
+                                             <input class="form-check-input payment-method" type="radio" name="phuongThuc" id="momo" value="MOMO" data-uuid="<?= $paymentMethods['MOMO'] ?>" />
                                              <label class="form-check-label ms-2" for="paypal"></label>
                                           </div>
                                           <div>
@@ -120,7 +120,7 @@
                                        <!-- check input -->
                                        <div class="d-flex">
                                           <div class="form-check">
-                                             <input class="form-check-input" type="radio" name="phuongThuc" id="cashonDelivery" value="cashonDelivery" />
+                                             <input class="form-check-input payment-method" type="radio" name="phuongThuc" id="cashonDelivery" value="COD" data-uuid="<?= $paymentMethods['COD'] ?>" checked />
                                              <label class="form-check-label ms-2" for="cashonDelivery"></label>
                                           </div>
                                           <div>
@@ -142,7 +142,7 @@
                                        aria-controls="flush-collapseOne">
                                        Trước
                                     </a>
-                                    <button  type="submit" class="btn btn-primary ms-2">Đặt hàng</button>
+                                    <button  type="submit" id="orderSubmitBtn" class="btn btn-primary ms-2">Đặt hàng</button>
                                  </div>
                               </div>
                            </div>
@@ -203,7 +203,7 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </form>
          </div>
       </div>
    </section>

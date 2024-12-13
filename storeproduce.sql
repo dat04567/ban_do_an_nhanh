@@ -124,7 +124,6 @@ DELIMITER
 
 
 
-
 DELIMITER //
 
 CREATE PROCEDURE XoaNguyenLieu(IN p_idNguyenLieu CHAR(36))
